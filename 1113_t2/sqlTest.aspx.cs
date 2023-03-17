@@ -2,18 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.Services;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using static System.Net.Mime.MediaTypeNames;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Runtime.Serialization;
-using System.Collections;
 
 namespace _1113_t2
 {
@@ -50,8 +39,8 @@ namespace _1113_t2
                     string columnName = (string)row["ColumnName"];
                     string columnValue = reader[columnName].ToString();
                     temp.Add(columnValue);
-                    // 執行其他處理...
                 }
+
                 list.Add(temp);                
             }        
             
@@ -122,9 +111,9 @@ namespace _1113_t2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            SqlLink();
+            /*SqlLink();
             List<string> test = Get_Unicode("ㄅㄨ");
-            SqlClose();
+            SqlClose();*/
         }
     }
 }
