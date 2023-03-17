@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="webserver_arduino_control">
+        <s:complexType />
+      </s:element>
+      <s:element name="webserver_arduino_controlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="webserver_arduino_controlResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="webserver_arduino_controlSoapIn">
+    <wsdl:part name="parameters" element="tns:webserver_arduino_control" />
+  </wsdl:message>
+  <wsdl:message name="webserver_arduino_controlSoapOut">
+    <wsdl:part name="parameters" element="tns:webserver_arduino_controlResponse" />
+  </wsdl:message>
+  <wsdl:portType name="webserver_arduinoSoap">
+    <wsdl:operation name="webserver_arduino_control">
+      <wsdl:input message="tns:webserver_arduino_controlSoapIn" />
+      <wsdl:output message="tns:webserver_arduino_controlSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="webserver_arduinoSoap" type="tns:webserver_arduinoSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="webserver_arduino_control">
+      <soap:operation soapAction="http://tempuri.org/webserver_arduino_control" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="webserver_arduinoSoap12" type="tns:webserver_arduinoSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="webserver_arduino_control">
+      <soap12:operation soapAction="http://tempuri.org/webserver_arduino_control" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="webserver_arduino">
+    <wsdl:port name="webserver_arduinoSoap" binding="tns:webserver_arduinoSoap">
+      <soap:address location="http://localhost:54562/webserver_arduino.asmx" />
+    </wsdl:port>
+    <wsdl:port name="webserver_arduinoSoap12" binding="tns:webserver_arduinoSoap12">
+      <soap12:address location="http://localhost:54562/webserver_arduino.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

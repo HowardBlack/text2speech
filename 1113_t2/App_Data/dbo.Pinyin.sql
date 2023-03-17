@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Pinyin] (
+    [Id]   INT  NOT NULL IDENTITY,
+    [Text] TEXT COLLATE Chinese_PRC_CI_AS NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+

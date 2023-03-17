@@ -1,0 +1,71 @@
+﻿.center {
+    margin: auto;
+}
+
+.row {
+    width: 95%;
+    margin: 50px auto;
+    height: 210px;
+    justify-content: space-around;
+    border-right: 5px solid;
+    border-bottom: 2px solid rgba(200, 200, 200, .5);
+}
+
+.title { /*標題*/
+    position: relative;
+    display: flex;
+    width: 500px;
+    height: 150px;
+    margin: auto;
+    font-weight: bold;
+    border-right: 5px solid;
+}
+
+text { /*標題 文字*/
+    margin: auto;
+    font-size: 100px;
+}
+
+.title_svg { /*標題 圖案*/
+    width: 80px;
+}
+
+.item { /*按鈕*/
+    margin: auto;
+    height: 150px;
+    width: 300px;
+    font-size: 80px;
+    line-height: 140px;
+    font-weight: bold;
+}
+
+    .item:last-child { /*OFF*/
+        border-color: rgba(100, 100, 100, 1);
+        font-weight: normal;
+        color: rgba(100, 100, 100, 1);
+    }
+
+.item_hover_r { /* hover 背景 紅*/
+    background: -webkit-linear-gradient(left,rgba(255,255,255,1),rgba(250,100,100,.2),rgba(250,100,100,.2));
+}
+
+.item_hover_g { /* hover 背景 綠*/
+    background: -webkit-linear-gradient(left,rgba(255,255,255,1),rgba(100,200,100,.2),rgba(100,200,100,.2));
+}
+
+.item_hover_b { /* hover 背景 藍*/
+    background: -webkit-linear-gradient(left,rgba(255,255,255,1),rgba(100,100,250,.2),rgba(100,100,250,.2));
+}
+
+.item_hover_k { /* hover 背景 藍*/
+    background: -webkit-linear-gradient(left,rgba(255,255,255,1),rgba(0,0,0,.2),rgba(0,0,0,.2));
+}
+
+.out {
+    width: 150px;
+    height: 150px;
+}
+
+path {
+    color: rgba(0, 0, 0, .3);
+}
