@@ -91,10 +91,6 @@
     <Content Include="App_Data\Text2Speache_log.ldf">
       <DependentUpon>Text2Speache.mdf</DependentUpon>
     </Content>
-    <Content Include="App_Data\Userdata.mdf" />
-    <Content Include="App_Data\Userdata_log.ldf">
-      <DependentUpon>Userdata.mdf</DependentUpon>
-    </Content>
     <Content Include="css\index.css" />
     <Content Include="data\CNS2UNICODE_Unicode BMP.txt" />
     <Content Include="data\CNS_phonetic.txt" />

@@ -72,6 +72,7 @@ namespace _1113_t2
 
         [WebMethod]
         public static List<string> Get_Unicode(string pinyin) { //找到對應注音的所有文字的Unicode碼
+            SqlLink();
             List<string> list = new List<string>(); //所查到的全部的字
 
             List<List<string>> Pinyin = Reader(
@@ -100,7 +101,10 @@ namespace _1113_t2
                 }
             }
 
+            SqlClose();
+
             return list;
+            
         }
 
         /* 使用說明

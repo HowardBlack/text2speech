@@ -6,12 +6,12 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>文字轉語音</title>
-    <link rel="stylesheet" href="node_modules\kioskboard\dist\kioskboard-2.3.0.min.css" />
+
     <link href="./css/index.css" rel="stylesheet" />
 </head>
 
 <body>
-    
+
     <form id="form1" runat="server">
         <div>
             <asp:ScriptManager ID="ScriptManager1" runat="server" />
@@ -23,143 +23,153 @@
         </div>
     </form>
 
-    <h1 id="title" style="text-align: center">Text to Speech</h1>
     <div class="container">
 
-        <div class="left" id="phonetic_button">
-            <div id="into1">
-                <button onclick="type1()" id="ㄅ" class="a1">ㄅ</button>
-                <button onclick="type1()" id="ㄆ" class="a1">ㄆ</button>
-                <button onclick="type1()" id="ㄇ" class="a1">ㄇ</button>
-                <button onclick="type1()" id="ㄈ" class="a1">ㄈ</button>
-                <button onclick="type1()" id="ㄉ" class="a1">ㄉ</button>
-                <button onclick="type1()" id="ㄊ" class="a1">ㄊ</button>
-                <button onclick="type1()" id="ㄋ" class="a1">ㄋ</button>
-                <button onclick="type1()" id="ㄌ" class="a1">ㄌ</button>
-                <button onclick="type1()" id="ㄍ" class="a1">ㄍ</button>
-                <button onclick="type1()" id="ㄎ" class="a1">ㄎ</button>
-                <button onclick="type1()" id="ㄏ" class="a1">ㄏ</button>
-            </div>
+        <div class="Showblock">
 
-            <div id="into2" style="display: block;">
-                <p>
-                    <button onclick="nexttype()" id="next1" class="a1" style="background-color: #549eee">
-                        ㄐ~ㄙ<br />
-                        聲母</button>
-                </p>
-            </div>
+            <div class="content">
 
-            <div id="into3" style="display: none;">
-                <button onclick="type1()" id="ㄐ" class="a1">ㄐ</button>
-                <button onclick="type1()" id="ㄑ" class="a1">ㄑ</button>
-                <button onclick="type1()" id="ㄒ" class="a1">ㄒ</button>
-                <button onclick="type1()" id="ㄓ" class="a1">ㄓ</button>
-                <button onclick="type1()" id="ㄔ" class="a1">ㄔ</button>
-                <button onclick="type1()" id="ㄕ" class="a1">ㄕ</button>
-                <button onclick="type1()" id="ㄖ" class="a1">ㄖ</button>
-                <button onclick="type1()" id="ㄗ" class="a1">ㄗ</button>
-                <button onclick="type1()" id="ㄘ" class="a1">ㄘ</button>
-                <button onclick="type1()" id="ㄙ" class="a1">ㄙ</button>
-            </div>
+                <div id="voice_and_inputText">
+                    <select id="voices"></select>
+                    <!-- 有必要嗎 沒有的話就刪掉 -->
+                    <br />
+                    <br />
+                    <textarea id="userInput"></textarea>
+                    <!-- style="width: 1480px; height: 280px" placeholder="Your Name"-->
+                </div>
 
-            <div id="into4" style="display: none;">
-                <p>
-                    <button onclick="nexttype2()" id="next2" class="a1" style="background-color: #549eee">
-                        ㄅ~ㄏ<br />
-                        聲母</button>
-                    <button onclick="nexttype3()" id="next3" class="a1" style="background-color: #549eee">
-                        ㄧ~ㄩ<br />
-                        介音</button>
-                </p>
-            </div>
-
-            <div id="into5" style="display: none;">
-                <p>
-                    <button onclick="type1()" id="ㄧ" class="a1">ㄧ</button>
-                    <button onclick="type1()" id="ㄨ" class="a1">ㄨ</button>
-                    <button onclick="type1()" id="ㄩ" class="a1">ㄩ</button>
-                </p>
-                <p>
-                    <button onclick="nexttype4()" id="next4" class="a1" style="background-color: #549eee">
-                        ㄐ~ㄙ<br />
-                        聲母</button>
-                    <button onclick="nexttype5()" id="next5" class="a1" style="background-color: #549eee">
-                        ㄚ~ㄣ<br />
-                        韻母</button>
-                </p>
-            </div>
-
-            <div id="into6" style="display: none;">
-                <button onclick="type1()" id="ㄚ" class="a1">ㄚ</button>
-                <button onclick="type1()" id="ㄛ" class="a1">ㄛ</button>
-                <button onclick="type1()" id="ㄜ" class="a1">ㄜ</button>
-                <button onclick="type1()" id="ㄝ" class="a1">ㄝ</button>
-                <button onclick="type1()" id="ㄞ" class="a1">ㄞ</button>
-                <button onclick="type1()" id="ㄟ" class="a1">ㄟ</button>
-                <button onclick="type1()" id="ㄠ" class="a1">ㄠ</button>
-                <button onclick="type1()" id="ㄡ" class="a1">ㄡ</button>
-                <button onclick="type1()" id="ㄢ" class="a1">ㄢ</button>
-                <button onclick="type1()" id="ㄣ" class="a1">ㄣ</button>
-
-            </div>
-
-            <div id="into7" style="display: none;">
-                <p>
-                    <button onclick="nexttype6()" id="next6" class="a1" style="background-color: #549eee">
-                        ㄧ~ㄩ<br />
-                        介音</button>
-                    <button onclick="nexttype7()" id="next7" class="a1" style="background-color: #549eee">
-                        ㄤ~ㄦ韻母<br />
-                        聲調</button>
-                </p>
-            </div>
-
-            <div id="into8" style="display: none;">
-                <button onclick="type1()" id="ㄤ" class="a1">ㄤ</button>
-                <button onclick="type1()" id="ㄥ" class="a1">ㄥ</button>
-                <button onclick="type1()" id="ㄦ" class="a1">ㄦ</button><p></p>
-                <button onclick="type1()" id="ˊ" class="a1">ˊ</button>
-                <button onclick="type1()" id="ˇ" class="a1">ˇ</button>
-                <button onclick="type1()" id="ˋ" class="a1">ˋ</button>
-                <button onclick="type1()" id="˙" class="a1">˙</button>
-
-            </div>
-
-            <div id="into9" style="display: none;">
-                <p>
-                    <button onclick="nexttype8()" id="next8" class="a1" style="background-color: #549eee">
-                        ㄚ~ㄣ<br />
-                        韻母</button>
-                    <button onclick="nexttype9()" id="next9" class="a1" style="background-color: #549eee">
-                        ㄅ~ㄏ<br />
-                        聲母</button>
-                </p>
+                <div class="select" id="unicodeImg">
+                    <!-- 測試文字顯示效果 -->
+                    <button class="test">⇦</button>
+                    <!-- 在這放文字 測試效果 可以刪掉 -->
+                    <button class="test">母</button>
+                    <button class="test">母</button>
+                    <button class="test">母</button>
+                    <button class="test">母</button>
+                    <button class="test">母</button>
+                    <button class="test">母</button>
+                    <button class="test">母</button>
+                    <!-- 在這放文字 -->
+                    <button class="test">⇨</button>
+                </div>
             </div>
         </div>
 
-        <div class="right">
-            <div class="content">
-                <div id="voice_and_inputText">
-                    <select id="voices"></select><br />
-                    <textarea id="userInput" placeholder="Your Name" style="width: 1480px; height: 280px"></textarea>
+        <div class="Keyboard" id="phonetic_button">
+
+            <div class="Pinyin">
+
+                <div id="into1" style="display: block;">
+                    <button id="ㄅ" onclick="type1()" >ㄅ</button>
+                    <button id="ㄆ" onclick="type1()" >ㄆ</button>
+                    <button id="ㄇ" onclick="type1()" >ㄇ</button>
+                    <button id="ㄈ" onclick="type1()" >ㄈ</button>
+                    <button id="ㄉ" onclick="type1()" >ㄉ</button>
+                    <button id="ㄊ" onclick="type1()" >ㄊ</button>
+                    <button id="ㄋ" onclick="type1()" >ㄋ</button>
+                </div>
+
+                <div id="into2" style="display: none;">
+                    <button id="ㄌ" onclick="type1()" >ㄌ</button>
+                    <button id="ㄍ" onclick="type1()" >ㄍ</button>
+                    <button id="ㄎ" onclick="type1()" >ㄎ</button>
+                    <button id="ㄏ" onclick="type1()" >ㄏ</button>
+                    <button id="ㄐ" onclick="type1()" >ㄐ</button>
+                    <button id="ㄑ" onclick="type1()" >ㄑ</button>
+                    <button id="ㄒ" onclick="type1()" >ㄒ</button>
+                </div>
+
+                <div id="into3" style="display: none;">
+                    <button id="ㄓ" onclick="type1()" >ㄓ</button>
+                    <button id="ㄔ" onclick="type1()" >ㄔ</button>
+                    <button id="ㄕ" onclick="type1()" >ㄕ</button>
+                    <button id="ㄖ" onclick="type1()" >ㄖ</button>
+                    <button id="ㄗ" onclick="type1()" >ㄗ</button>
+                    <button id="ㄘ" onclick="type1()" >ㄘ</button>
+                    <button id="ㄙ" onclick="type1()" >ㄙ</button>
+                </div>
+
+                <div id="into4" style="display: none;">
+                    <button id="ㄧ" onclick="type1()" >ㄧ</button>
+                    <button id="ㄨ" onclick="type1()" >ㄨ</button>
+                    <button id="ㄩ" onclick="type1()" >ㄩ</button>
+                </div>
+
+                <div id="into5" style="display: none;">
+                    <button id="ㄚ" onclick="type1()" >ㄚ</button>
+                    <button id="ㄛ" onclick="type1()" >ㄛ</button>
+                    <button id="ㄜ" onclick="type1()" >ㄜ</button>
+                    <button id="ㄝ" onclick="type1()" >ㄝ</button>
+                    <button id="ㄞ" onclick="type1()" >ㄞ</button>
+                    <button id="ㄟ" onclick="type1()" >ㄟ</button>
+                    <button id="ㄠ" onclick="type1()" >ㄠ</button>
+                </div>
+
+                <div id="into6" style="display: none;">
+                    <button id="ㄡ" onclick="type1()">ㄡ</button>
+                    <button id="ㄢ" onclick="type1()">ㄢ</button>
+                    <button id="ㄣ" onclick="type1()">ㄣ</button>
+                    <button id="ㄤ" onclick="type1()">ㄤ</button>
+                    <button id="ㄥ" onclick="type1()">ㄥ</button>
+                    <button id="ㄦ" onclick="type1()">ㄦ</button>
+                </div>
+
+                <div id="into7" style="display: none;">
+                    <button id="ˊ" onclick="type1()">ˊ</button>
+                    <button id="ˇ" onclick="type1()">ˇ</button>
+                    <button id="ˋ" onclick="type1()">ˋ</button>
+                    <button id="˙" onclick="type1()">˙</button>
+                </div>
+
+                <div class="Group" id="change_pinyin">
+                    <button class="Change" id="change_pinyin1" onclick="PinyinChange(1)">
+                        ㄅ~ㄋ<br />
+                        聲母</button>
+
+                    <button class="Change" id="change_pinyin2" onclick="PinyinChange(2)">
+                        ㄌ~ㄒ<br />
+                        聲母</button>
+
+                    <button class="Change" id="change_pinyin3" onclick="PinyinChange(3)">
+                        ㄓ~ㄙ<br />
+                        聲母</button>
+
+                    <button class="Change" id="change_pinyin4" onclick="PinyinChange(4)">
+                        ㄧ~ㄩ<br />
+                        介音</button>
+
+                    <button class="Change" id="change_pinyin5" onclick="PinyinChange(5)">
+                        ㄚ~ㄠ<br />
+                        韻母</button>
+
+                    <button class="Change" id="change_pinyin6" onclick="PinyinChange(6)">
+                        ㄡ~ㄦ<br />
+                        韻母</button>
+
+                    <button class="Change" id="change_pinyin7" onclick="PinyinChange(7)">
+                        聲調<br />
+                    </button>
+
                 </div>
             </div>
 
-            <div class="content" id="unicodeImg"></div>
-
-            <div class="content">
-                <button click="start" id="play" class="event btn1">PLAY</button>
-                <button click="cancel" id="cancel" class="event btn4">CANCEL</button><br />
+            <!-- 控制聲音 -->
+            <div class="Voice"> 
+                <button class="Play" click="start" id="play">PLAY</button>
+                <button class="Cancel" click="cancel" id="cancel">CANCEL</button> <!-- 我覺得可以改成到退鍵 -->
             </div>
         </div>
 
     </div>
 
-
     <script src="jquery-3.4.1.min.js"></script>
     <script src="index.js"></script>
+    <script src="tts.js"></script>
+    <!-- 文字轉語音 -->
+
     <script>
         let userInput = document.getElementById('userInput');
+
         function type1() {
             userInput.textContent += event.target.textContent;
             const resUnicode = getUnicode(userInput.textContent);
@@ -174,15 +184,19 @@
                 $('#unicodeImg').text("查無資料!");
             }
         }
-        
+
         function getUnicode(phonetic_notation) {
             $.ajax({
                 url: '<%= ResolveUrl("~/sqlTest.aspx/Get_Unicode") %>',
                 method: 'POST',
                 data: JSON.stringify({ 'pinyin': phonetic_notation }),
-                contentType: 'application/json; charset=urf-8',                
+                contentType: 'application/json; charset=urf-8',
                 success(result) {
-                    console.log(result);
+                    for (let u of result['d']) {
+                        const unicodeValue = `0x${u}`;
+                        console.log(String.fromCharCode(unicodeValue)); // 誧 
+                        $("#unicodeImg").append(`<img src="https://www.cns11643.gov.tw/char/kai/96/${u}.png">`);
+                    }
                 },
                 error() {
 
@@ -190,107 +204,29 @@
             })
         }
 
-        function nexttype() {
-            var a = document.getElementById("into1")
-            var b = document.getElementById("into2")
-            var c = document.getElementById("into3")
-            var d = document.getElementById("into4")
-            if (c.style.display === "none") {
-                a.style.display = "none";
-                b.style.display = "none";
-                c.style.display = "block";
-                d.style.display = "block";
-            }
+        function PinyinClick(type) { //注音鍵點擊事件
+
         }
-        function nexttype2() {
-            var a = document.getElementById("into1")
-            var b = document.getElementById("into2")
-            var c = document.getElementById("into3")
-            var d = document.getElementById("into4")
-            if (a.style.display === "none") {
-                a.style.display = "block";
-                b.style.display = "block";
-                c.style.display = "none";
-                d.style.display = "none";
+
+        function PinyinChange(type) { //切換注音
+            function init() {
+                for (var i = 1; i < 8; i++) {
+                    let temp = document.getElementById("into" + i);
+                    temp.style.display = "none";
+                }
             }
+
+            init();
+
+            let temp = document.getElementById("into" + type);
+            temp.style.display = "block";
+            DisplayChange(temp, )
         }
-        function nexttype3() {
-            var a = document.getElementById("into3")
-            var b = document.getElementById("into4")
-            var c = document.getElementById("into5")
-            if (c.style.display === "none") {
-                a.style.display = "none";
-                b.style.display = "none";
-                c.style.display = "block";
-            }
-        }
-        function nexttype4() {
-            var a = document.getElementById("into3")
-            var b = document.getElementById("into4")
-            var c = document.getElementById("into5")
-            if (a.style.display === "none") {
-                a.style.display = "block";
-                b.style.display = "block";
-                c.style.display = "none";
-            }
-        }
-        function nexttype5() {
-            var a = document.getElementById("into5")
-            var b = document.getElementById("into6")
-            var c = document.getElementById("into7")
-            if (c.style.display === "none") {
-                a.style.display = "none";
-                b.style.display = "block";
-                c.style.display = "block";
-            }
-        }
-        function nexttype6() {
-            var a = document.getElementById("into5")
-            var b = document.getElementById("into6")
-            var c = document.getElementById("into7")
-            if (a.style.display === "none") {
-                a.style.display = "block";
-                b.style.display = "none";
-                c.style.display = "none";
-            }
-        }
-        function nexttype7() {
-            var a = document.getElementById("into6")
-            var b = document.getElementById("into7")
-            var c = document.getElementById("into8")
-            var d = document.getElementById("into9")
-            if (c.style.display === "none") {
-                a.style.display = "none";
-                b.style.display = "none";
-                c.style.display = "block";
-                d.style.display = "block";
-            }
-        }
-        function nexttype8() {
-            var a = document.getElementById("into6")
-            var b = document.getElementById("into7")
-            var c = document.getElementById("into8")
-            var d = document.getElementById("into9")
-            if (a.style.display === "none") {
-                a.style.display = "block";
-                b.style.display = "block";
-                c.style.display = "none";
-                d.style.display = "none";
-            }
-        }
-        function nexttype9() {
-            var a = document.getElementById("into8")
-            var b = document.getElementById("into9")
-            var c = document.getElementById("into1")
-            var d = document.getElementById("into2")
-            if (c.style.display === "none") {
-                a.style.display = "none";
-                b.style.display = "none";
-                c.style.display = "block";
-                d.style.display = "block";
-            }
+
+        function FontChange(type) { // 切換文字
+
         }
     </script>
-    <script src="tts.js"></script>
+
 </body>
 </html>
