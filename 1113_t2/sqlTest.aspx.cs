@@ -90,7 +90,7 @@ namespace _1113_t2
                 foreach (var j in Cns) //j = Cns裡的欄位資料
                 {
                     List<List<string>> Unicode = Reader(
-                                                    Select("code",
+                                                    Select("distinct code",
                                                     From("Unicode"),
                                                     Where("cnsId = '" + j[0] + "'"))); //找到Unicode
 

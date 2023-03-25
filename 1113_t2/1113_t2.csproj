@@ -158,7 +158,6 @@
     <Content Include="img\4.png" />
     <Content Include="img\5.png" />
     <Content Include="index.aspx" />
-    <Content Include="index.css" />
     <Content Include="index.js" />
     <Content Include="se.aspx" />
     <Content Include="se.css" />
