@@ -166,7 +166,10 @@
                 success(result) {
                     const resCode = result['d'];
                     if (resCode.length) {
-                        countPage = currentPage = 1;
+                        // 清除先前文字選項
+                        $('#textShow').empty();
+                        // 設定 頁面總數 及 當前頁面 都是 1
+                        countPage = currentPage = 1;                        
                         resCode.forEach((code, index) => {
                             // 為方便待會判斷，將 index + 1
                             index++;
