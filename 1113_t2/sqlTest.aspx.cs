@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Web.Services;
+using System.Text;
+using System.Diagnostics;
 
 namespace _1113_t2
 {
@@ -116,7 +118,66 @@ namespace _1113_t2
         protected void Page_Load(object sender, EventArgs e)
         {
             /*SqlLink();
-            List<string> test = Get_Unicode("ㄅㄨ");
+
+            int index = 0;
+            SqlDataReader reader = null;
+            foreach (var a in getData())
+            {
+                string[] data = a.Split('\t');
+                index++;
+                Unicode(data, index);
+            }
+
+            string[] getData()
+            {
+                string file1 = System.IO.File.ReadAllText(
+                    //@"D:\\project\\eye0312\\eye\\1113_t2\\data\\CNS_phonetic.txt",
+                    @"D:\\text2speech\\1113_t2\\data\\CNS2UNICODE_Unicode BMP.txt",
+                    Encoding.GetEncoding("utf-8")).Trim();
+
+                string[] f_array = file1.Split('\n');
+                return f_array;
+            }
+
+            void _Insert(string sql)
+            {
+                if (reader != null) reader.Close();
+                SqlCommand insert = new SqlCommand(sql, connection);
+                insert.ExecuteNonQuery();
+            }
+
+            void _Select(string sql)
+            {
+                if (reader != null) reader.Close();
+                SqlCommand select = new SqlCommand(sql, connection);
+                select.ExecuteNonQuery();
+                reader = select.ExecuteReader();
+            }
+
+            void Unicode(string[] data, int num)
+            {
+                List<List<string>> temp = Reader(
+                        Select("id",
+                        From("Cns"),
+                        Where("code = '" + data[0].Trim() + "'"))); //找到PinyinId
+
+                if (temp.Count > 0)
+                {
+                    foreach (var item in temp) {
+                        _Insert(
+                    "insert into [Unicode] values("
+                    + item[0] + "," +
+                    "'" + data[1].Trim() + "'" +
+                    ")");
+                    }
+                }
+                else {
+                    Debug.WriteLine(num);
+                }
+            }
+
+
+
             SqlClose();*/
         }
     }

@@ -8,7 +8,7 @@ function hover(x) {  //觸碰按鈕
 }
 
 function click(x) {
-    
+ 
     if (x == 0) {
         console.log("2");
         speech.text = document.querySelector("textarea").value;

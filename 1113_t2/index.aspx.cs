@@ -59,7 +59,8 @@ namespace _1113_t2
 
         protected void Timer1_Tick(object sender, EventArgs e)
         {
-            
+
+
             if (x > 576 && y > 290 && x < 905 && y < 547)  //如果在該範圍
             {
                 xy("hover(0)", "click(0)", "");                   //呼叫觸發函數

@@ -92,6 +92,8 @@
       <DependentUpon>Text2Speache.mdf</DependentUpon>
     </Content>
     <Content Include="css\index.css" />
+    <Content Include="data\CNS2UNICODE_Unicode 15.txt" />
+    <Content Include="data\CNS2UNICODE_Unicode 2.txt" />
     <Content Include="data\CNS2UNICODE_Unicode BMP.txt" />
     <Content Include="data\CNS_phonetic.txt" />
     <Content Include="ec.aspx" />
