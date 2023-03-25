@@ -6,7 +6,6 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>文字轉語音</title>
-
     <link href="./css/index.css" rel="stylesheet" />
 </head>
 
@@ -26,32 +25,17 @@
     <div class="container">
 
         <div class="Showblock">
-
-            <div class="content">
-
-                <div id="voice_and_inputText">
-                    <select id="voices"></select>
-                    <!-- 有必要嗎 沒有的話就刪掉 -->
-                    <br />
-                    <br />
-                    <textarea id="userInput"></textarea>
-                    <!-- style="width: 1480px; height: 280px" placeholder="Your Name"-->
-                </div>
-
-                <div class="select" id="unicodeImg">
-                    <!-- 測試文字顯示效果 -->
-                    <button class="test">⇦</button>
-                    <!-- 在這放文字 測試效果 可以刪掉 -->
-                    <button class="test">母</button>
-                    <button class="test">母</button>
-                    <button class="test">母</button>
-                    <button class="test">母</button>
-                    <button class="test">母</button>
-                    <button class="test">母</button>
-                    <button class="test">母</button>
-                    <!-- 在這放文字 -->
-                    <button class="test">⇨</button>
-                </div>
+            <div id="voice_and_inputText">
+                <select id="voices"></select>
+                <!-- 有必要嗎 沒有的話就刪掉 -->
+                <textarea id="userInput" disabled="disabled"></textarea>
+            </div>
+            <div class="select" id="unicodeImg">
+                <!-- 測試文字顯示效果 -->
+                <button class="test" onclick="FontChange(-1)">⇦</button>
+                <div id="textShow"></div>
+                <!-- 在這放文字 -->
+                <button class="test" onclick="FontChange(1)">⇨</button>
             </div>
         </div>
 
@@ -60,65 +44,65 @@
             <div class="Pinyin">
 
                 <div id="into1" style="display: block;">
-                    <button id="ㄅ" onclick="type1()" >ㄅ</button>
-                    <button id="ㄆ" onclick="type1()" >ㄆ</button>
-                    <button id="ㄇ" onclick="type1()" >ㄇ</button>
-                    <button id="ㄈ" onclick="type1()" >ㄈ</button>
-                    <button id="ㄉ" onclick="type1()" >ㄉ</button>
-                    <button id="ㄊ" onclick="type1()" >ㄊ</button>
-                    <button id="ㄋ" onclick="type1()" >ㄋ</button>
+                    <button id="ㄅ" onclick="PinyinClick()">ㄅ</button>
+                    <button id="ㄆ" onclick="PinyinClick()">ㄆ</button>
+                    <button id="ㄇ" onclick="PinyinClick()">ㄇ</button>
+                    <button id="ㄈ" onclick="PinyinClick()">ㄈ</button>
+                    <button id="ㄉ" onclick="PinyinClick()">ㄉ</button>
+                    <button id="ㄊ" onclick="PinyinClick()">ㄊ</button>
+                    <button id="ㄋ" onclick="PinyinClick()">ㄋ</button>
                 </div>
 
                 <div id="into2" style="display: none;">
-                    <button id="ㄌ" onclick="type1()" >ㄌ</button>
-                    <button id="ㄍ" onclick="type1()" >ㄍ</button>
-                    <button id="ㄎ" onclick="type1()" >ㄎ</button>
-                    <button id="ㄏ" onclick="type1()" >ㄏ</button>
-                    <button id="ㄐ" onclick="type1()" >ㄐ</button>
-                    <button id="ㄑ" onclick="type1()" >ㄑ</button>
-                    <button id="ㄒ" onclick="type1()" >ㄒ</button>
+                    <button id="ㄌ" onclick="PinyinClick()">ㄌ</button>
+                    <button id="ㄍ" onclick="PinyinClick()">ㄍ</button>
+                    <button id="ㄎ" onclick="PinyinClick()">ㄎ</button>
+                    <button id="ㄏ" onclick="PinyinClick()">ㄏ</button>
+                    <button id="ㄐ" onclick="PinyinClick()">ㄐ</button>
+                    <button id="ㄑ" onclick="PinyinClick()">ㄑ</button>
+                    <button id="ㄒ" onclick="PinyinClick()">ㄒ</button>
                 </div>
 
                 <div id="into3" style="display: none;">
-                    <button id="ㄓ" onclick="type1()" >ㄓ</button>
-                    <button id="ㄔ" onclick="type1()" >ㄔ</button>
-                    <button id="ㄕ" onclick="type1()" >ㄕ</button>
-                    <button id="ㄖ" onclick="type1()" >ㄖ</button>
-                    <button id="ㄗ" onclick="type1()" >ㄗ</button>
-                    <button id="ㄘ" onclick="type1()" >ㄘ</button>
-                    <button id="ㄙ" onclick="type1()" >ㄙ</button>
+                    <button id="ㄓ" onclick="PinyinClick()">ㄓ</button>
+                    <button id="ㄔ" onclick="PinyinClick()">ㄔ</button>
+                    <button id="ㄕ" onclick="PinyinClick()">ㄕ</button>
+                    <button id="ㄖ" onclick="PinyinClick()">ㄖ</button>
+                    <button id="ㄗ" onclick="PinyinClick()">ㄗ</button>
+                    <button id="ㄘ" onclick="PinyinClick()">ㄘ</button>
+                    <button id="ㄙ" onclick="PinyinClick()">ㄙ</button>
                 </div>
 
                 <div id="into4" style="display: none;">
-                    <button id="ㄧ" onclick="type1()" >ㄧ</button>
-                    <button id="ㄨ" onclick="type1()" >ㄨ</button>
-                    <button id="ㄩ" onclick="type1()" >ㄩ</button>
+                    <button id="ㄧ" onclick="PinyinClick()">ㄧ</button>
+                    <button id="ㄨ" onclick="PinyinClick()">ㄨ</button>
+                    <button id="ㄩ" onclick="PinyinClick()">ㄩ</button>
                 </div>
 
                 <div id="into5" style="display: none;">
-                    <button id="ㄚ" onclick="type1()" >ㄚ</button>
-                    <button id="ㄛ" onclick="type1()" >ㄛ</button>
-                    <button id="ㄜ" onclick="type1()" >ㄜ</button>
-                    <button id="ㄝ" onclick="type1()" >ㄝ</button>
-                    <button id="ㄞ" onclick="type1()" >ㄞ</button>
-                    <button id="ㄟ" onclick="type1()" >ㄟ</button>
-                    <button id="ㄠ" onclick="type1()" >ㄠ</button>
+                    <button id="ㄚ" onclick="PinyinClick()">ㄚ</button>
+                    <button id="ㄛ" onclick="PinyinClick()">ㄛ</button>
+                    <button id="ㄜ" onclick="PinyinClick()">ㄜ</button>
+                    <button id="ㄝ" onclick="PinyinClick()">ㄝ</button>
+                    <button id="ㄞ" onclick="PinyinClick()">ㄞ</button>
+                    <button id="ㄟ" onclick="PinyinClick()">ㄟ</button>
+                    <button id="ㄠ" onclick="PinyinClick()">ㄠ</button>
                 </div>
 
                 <div id="into6" style="display: none;">
-                    <button id="ㄡ" onclick="type1()">ㄡ</button>
-                    <button id="ㄢ" onclick="type1()">ㄢ</button>
-                    <button id="ㄣ" onclick="type1()">ㄣ</button>
-                    <button id="ㄤ" onclick="type1()">ㄤ</button>
-                    <button id="ㄥ" onclick="type1()">ㄥ</button>
-                    <button id="ㄦ" onclick="type1()">ㄦ</button>
+                    <button id="ㄡ" onclick="PinyinClick()">ㄡ</button>
+                    <button id="ㄢ" onclick="PinyinClick()">ㄢ</button>
+                    <button id="ㄣ" onclick="PinyinClick()">ㄣ</button>
+                    <button id="ㄤ" onclick="PinyinClick()">ㄤ</button>
+                    <button id="ㄥ" onclick="PinyinClick()">ㄥ</button>
+                    <button id="ㄦ" onclick="PinyinClick()">ㄦ</button>
                 </div>
 
                 <div id="into7" style="display: none;">
-                    <button id="ˊ" onclick="type1()">ˊ</button>
-                    <button id="ˇ" onclick="type1()">ˇ</button>
-                    <button id="ˋ" onclick="type1()">ˋ</button>
-                    <button id="˙" onclick="type1()">˙</button>
+                    <button id="ˊ" onclick="PinyinClick()">ˊ</button>
+                    <button id="ˇ" onclick="PinyinClick()">ˇ</button>
+                    <button id="ˋ" onclick="PinyinClick()">ˋ</button>
+                    <button id="˙" onclick="PinyinClick()">˙</button>
                 </div>
 
                 <div class="Group" id="change_pinyin">
@@ -154,9 +138,10 @@
             </div>
 
             <!-- 控制聲音 -->
-            <div class="Voice"> 
+            <div class="Voice">
                 <button class="Play" click="start" id="play">PLAY</button>
-                <button class="Cancel" click="cancel" id="cancel">CANCEL</button> <!-- 我覺得可以改成到退鍵 -->
+                <button class="Cancel" click="cancel" id="cancel">CANCEL</button>
+                <!-- 我覺得可以改成到退鍵 -->
             </div>
         </div>
 
@@ -165,47 +150,58 @@
     <script src="jquery-3.4.1.min.js"></script>
     <script src="index.js"></script>
     <script src="tts.js"></script>
-    <!-- 文字轉語音 -->
-
     <script>
-        let userInput = document.getElementById('userInput');
+        // 設定 currentPage 為當前頁面 及 countPage 為頁面總數
+        let currentPage, countPage;
 
-        function type1() {
+        function PinyinClick() { //注音鍵點擊事件
+            let userInput = document.getElementById('userInput');
             userInput.textContent += event.target.textContent;
-            const resUnicode = getUnicode(userInput.textContent);
-            if (resUnicode.length) {
-                $('#unicodeImg').text('');
-                for (let u of resUnicode) {
-                    const unicodeValue = `0x${u}`;
-                    console.log(String.fromCharCode(unicodeValue)); // 誧 
-                    $("#unicodeImg").append(`<img src="https://www.cns11643.gov.tw/char/kai/96/${u}.png">`);
-                }
-            } else {
-                $('#unicodeImg').text("查無資料!");
-            }
-        }
 
-        function getUnicode(phonetic_notation) {
             $.ajax({
                 url: '<%= ResolveUrl("~/sqlTest.aspx/Get_Unicode") %>',
                 method: 'POST',
-                data: JSON.stringify({ 'pinyin': phonetic_notation }),
+                data: JSON.stringify({ 'pinyin': userInput.textContent }),
                 contentType: 'application/json; charset=urf-8',
                 success(result) {
-                    for (let u of result['d']) {
-                        const unicodeValue = `0x${u}`;
-                        console.log(String.fromCharCode(unicodeValue)); // 誧 
-                        $("#unicodeImg").append(`<img src="https://www.cns11643.gov.tw/char/kai/96/${u}.png">`);
+                    const resCode = result['d'];
+                    if (resCode.length) {
+                        countPage = currentPage = 1;
+                        resCode.forEach((code, index) => {
+                            // 為方便待會判斷，將 index + 1
+                            index++;
+                            // 將 unicode 轉成 16 進制
+                            const unicodeText = String.fromCharCode(parseInt(code, 16));
+                            // 判斷每頁元素是否存在，如果不存在即新增
+                            if (!$(`.test${countPage}`).length)
+                                $('#textShow').append(`<div class="test${countPage}"></div>`);
+                            // 新增每個文字至對應的頁面。尚未寫 button call function event
+                            $(`.test${countPage}`).append(`<button class="test" value="${unicodeText}" onclick="">${unicodeText}</button>`);
+                            // 判斷 index 是否整除 6，如果整除就 countPage + 1，區分不同頁面的 類別編號
+                            if (index % 6 == 0) countPage++;
+                        })
+                        // 初始化所有頁面看不到
+                        for (let i = 1; i <= countPage; i++)
+                            $(`.test${i}`).css('display', 'none');
+                        // 預設顯示第一頁
+                        $(`.test${currentPage}`).css('display', 'block');
+
+                    } else {
+                        // 查無資料做什麼事情...
+                        console.log("查無資料")
                     }
                 },
-                error() {
-
+                error(error) {
+                    // 顯示連線錯誤訊息...
+                    console.log(error);
                 }
             })
         }
 
-        function PinyinClick(type) { //注音鍵點擊事件
-
+        function initOption() {
+            $('.pinyinWord').each((e) => {
+                e.style('')
+            })
         }
 
         function PinyinChange(type) { //切換注音
@@ -220,12 +216,18 @@
 
             let temp = document.getElementById("into" + type);
             temp.style.display = "block";
-            DisplayChange(temp, )
+            // DisplayChange(temp,)
         }
 
-        function FontChange(type) { // 切換文字
-
+        function FontChange(p) { // 切換文字
+            const newPage = currentPage + p;
+            if (newPage > 0 && newPage <= countPage) {
+                $(`.test${currentPage}`).css('display', 'none');
+                $(`.test${newPage}`).css('display', 'block');
+                currentPage = newPage;
+            }
         }
+
     </script>
 
 </body>
