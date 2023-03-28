@@ -164,20 +164,23 @@
                 data: JSON.stringify({ 'pinyin': userInput.textContent }),
                 contentType: 'application/json; charset=urf-8',
                 success(result) {
+                    // 清除先前文字選項
+                    $('#textShow').empty();
+                    // 將 unicode 陣列放置 resCode 變數
                     const resCode = result['d'];
+                    // 判斷 resCode 是否有資料
                     if (resCode.length) {
-                        // 清除先前文字選項
-                        $('#textShow').empty();
                         // 設定 頁面總數 及 當前頁面 都是 1
                         countPage = currentPage = 1;                        
                         resCode.forEach((code, index) => {
                             // 為方便待會判斷，將 index + 1
                             index++;
-                            // 將 unicode 轉成 16 進制
+                            // 將 unicode 轉成 16 進制                            
                             const unicodeText = String.fromCharCode(parseInt(code, 16));
                             // 判斷每頁元素是否存在，如果不存在即新增
                             if (!$(`.test${countPage}`).length)
                                 $('#textShow').append(`<div class="test${countPage}"></div>`);
+                            // const imgSrc = `https://www.cns11643.gov.tw/char/kai/96/${code}.png`;
                             // 新增每個文字至對應的頁面。尚未寫 button call function event
                             $(`.test${countPage}`).append(`<button class="test" value="${unicodeText}" onclick="">${unicodeText}</button>`);
                             // 判斷 index 是否整除 6，如果整除就 countPage + 1，區分不同頁面的 類別編號
@@ -191,7 +194,7 @@
 
                     } else {
                         // 查無資料做什麼事情...
-                        console.log("查無資料")
+                        console.log("查無資料");
                     }
                 },
                 error(error) {
