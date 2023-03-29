@@ -156,6 +156,23 @@
     <script src="index.js"></script>
     <script src="tts.js"></script>
     <script>
+        function testapi() {
+            var uri = 'api/Text2Speache';
+
+            $.ajax({
+                url: uri,
+                method: "GET",
+                data: "data=ㄨㄛˇ",
+
+                success: function (res) {
+                    var json = $.parseJSON(res);
+                    console.log(json)
+                },
+
+                error: function (err) { console.log(err) },
+            });
+        }
+
         // 設定 currentPage 為當前頁面 及 countPage 為頁面總數
         let currentPage, countPage;
 
