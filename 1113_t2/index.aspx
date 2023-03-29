@@ -28,7 +28,12 @@
             <div id="voice_and_inputText">
                 <select id="voices"></select>
                 <!-- 有必要嗎 沒有的話就刪掉 -->
-                <textarea id="userInput" disabled="disabled"></textarea>
+                <br />
+                <div style="display:flex; justify-content: center;">
+                    <textarea id="userInput" disabled="disabled"></textarea>
+                    <textarea id="choiceText" disabled="disabled"></textarea>
+                    <button class="test" id="pinyinDelete" onclick="PinyinDelete()">⇦backspace</button>
+                </div>
             </div>
             <div class="select" id="unicodeImg">
                 <!-- 測試文字顯示效果 -->
@@ -171,7 +176,7 @@
                     // 判斷 resCode 是否有資料
                     if (resCode.length) {
                         // 設定 頁面總數 及 當前頁面 都是 1
-                        countPage = currentPage = 1;                        
+                        countPage = currentPage = 1;
                         resCode.forEach((code, index) => {
                             // 為方便待會判斷，將 index + 1
                             index++;
@@ -180,9 +185,8 @@
                             // 判斷每頁元素是否存在，如果不存在即新增
                             if (!$(`.test${countPage}`).length)
                                 $('#textShow').append(`<div class="test${countPage}"></div>`);
-                            // const imgSrc = `https://www.cns11643.gov.tw/char/kai/96/${code}.png`;
                             // 新增每個文字至對應的頁面。尚未寫 button call function event
-                            $(`.test${countPage}`).append(`<button class="test" value="${unicodeText}" onclick="">${unicodeText}</button>`);
+                            $(`.test${countPage}`).append(`<button class="test" onclick="InsertText('${unicodeText}')">${unicodeText}</button>`);
                             // 判斷 index 是否整除 6，如果整除就 countPage + 1，區分不同頁面的 類別編號
                             if (index % 6 == 0) countPage++;
                         })
@@ -191,7 +195,6 @@
                             $(`.test${i}`).css('display', 'none');
                         // 預設顯示第一頁
                         $(`.test${currentPage}`).css('display', 'block');
-
                     } else {
                         // 查無資料做什麼事情...
                         console.log("查無資料");
@@ -232,6 +235,27 @@
                 $(`.test${newPage}`).css('display', 'block');
                 currentPage = newPage;
             }
+        }
+
+        function InsertText(text) { // 新增點選文字至 choiceText textarea
+            // 加入選取文字至 choiceText
+            $('#choiceText').append(text);
+            // 清空 userInput textarea 以輸入下一個注音
+            $('#userInput').empty();
+            // 清空 textShow
+            $('#textShow').empty();
+        }
+
+        // 暫時有bug，頁面實際已經刪除，但html文字還在
+        function PinyinDelete() { // 刪除 注音 或 選取文字
+            // 如果 userInput 有長度，帶入 userInput，反之帶入 choiceText
+            let textarea = ($('#userInput').val().length) ? $('#userInput') : $('#choiceText');           
+            // 取出 textarea 原始文字
+            let originText = textarea.text();
+            // 刪除 textarea 最後一個字
+            let newText = originText.slice(0, -1);
+            // 將結果重新放回 textarea
+            textarea.text(newText);
         }
 
     </script>

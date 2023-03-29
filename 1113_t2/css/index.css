@@ -21,7 +21,8 @@
 }
 
 .Showblock textarea {
-    width: 90%;
+    width: 30%;
+    height: 200px;
     font-size: 50px;
 }
 
