@@ -151,6 +151,23 @@
     <script src="index.js"></script>
     <script src="tts.js"></script>
     <script>
+        function testapi() {
+            var uri = 'api/Text2Speache';
+
+            $.ajax({
+                url: uri,
+                method: "GET",
+                data: "data=ㄨㄛˇ",
+
+                success: function (res) {
+                    var json = $.parseJSON(res);
+                    console.log(json)
+                },
+
+                error: function (err) { console.log(err) },
+            });
+        }
+
         // 設定 currentPage 為當前頁面 及 countPage 為頁面總數
         let currentPage, countPage;
 
@@ -171,7 +188,7 @@
                     // 判斷 resCode 是否有資料
                     if (resCode.length) {
                         // 設定 頁面總數 及 當前頁面 都是 1
-                        countPage = currentPage = 1;                        
+                        countPage = currentPage = 1;
                         resCode.forEach((code, index) => {
                             // 為方便待會判斷，將 index + 1
                             index++;

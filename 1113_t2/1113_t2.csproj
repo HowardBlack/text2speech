@@ -159,6 +159,16 @@
     <Content Include="img\5.png" />
     <Content Include="index.aspx" />
     <Content Include="index.js" />
+    <Content Include="Models\Text2Speache.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Text2Speache.edmx</DependentUpon>
+      <LastGenOutput>Text2Speache.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Text2Speache.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Text2Speache.edmx</DependentUpon>
+      <LastGenOutput>Text2Speache.cs</LastGenOutput>
+    </Content>
     <Content Include="se.aspx" />
     <Content Include="se.css" />
     <Content Include="se.js" />
@@ -190,7 +200,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\PinyinController.cs" />
+    <Compile Include="Controllers\Text2SpeacheController.cs" />
     <Compile Include="ec.aspx.cs">
       <DependentUpon>ec.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -214,6 +224,30 @@
     </Compile>
     <Compile Include="index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cn.cs">
+      <DependentUpon>Text2Speache.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pinyin.cs">
+      <DependentUpon>Text2Speache.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Text2Speache.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Text2Speache.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Text2Speache.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Text2Speache.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Text2Speache.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Text2Speache.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Unicode.cs">
+      <DependentUpon>Text2Speache.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="se.aspx.cs">
@@ -268,6 +302,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="jquery-3.4.1.min.js" />
+    <EntityDeploy Include="Models\Text2Speache.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Text2Speache.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Text2Speache.edmx.diagram">
+      <DependentUpon>Text2Speache.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -282,7 +323,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Text2Speach\" />
   </ItemGroup>
   <ItemGroup>
