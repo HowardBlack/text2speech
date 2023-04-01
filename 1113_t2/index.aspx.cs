@@ -11,10 +11,15 @@ using EyeXFramework;
 using System.Diagnostics;
 using System.Threading;
 using System.IO.Ports;
+using _1113_t2.Models;
+
 namespace _1113_t2
 {
     public partial class index : System.Web.UI.Page
     {
+        static int[] deviation = { 0, 1 };
+        Pinyin pinyin = new Pinyin(deviation);
+
         Thread tt;
         SerialPort arduino;
         static double x = 0.0, y = 0.0, time = 0.0;                     //品宏的變數
@@ -24,10 +29,10 @@ namespace _1113_t2
         protected void xy(string hover, string click, string ax)                   //世宇-觸發函數
         {
             count++;                                                    //累加時間
-                ScriptManager.RegisterClientScriptBlock(Page, GetType(), hover, hover, true);   //觸發 JS hover函數
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), hover, hover, true);   //觸發 JS hover函數
             if (count > 10)                                                                     //超過時間則
             {
-                 ScriptManager.RegisterClientScriptBlock(Page, GetType(), click, click, true);   //觸發 JS click函數
+                ScriptManager.RegisterClientScriptBlock(Page, GetType(), click, click, true);   //觸發 JS click函數
                 count = 0;
                 if (st != ax)
                 {
@@ -38,7 +43,7 @@ namespace _1113_t2
                     arduino.Write(ax);
                     arduino.Close();
                     st = ax;
-                  
+
                 }
             }
 
@@ -59,7 +64,20 @@ namespace _1113_t2
 
         protected void Timer1_Tick(object sender, EventArgs e)
         {
-            
+            if (pinyin.checkClick(x, y))
+            {
+                //幫我測fun會是甚麼
+                string fun = pinyin.Click();
+                Debug.WriteLine(fun);  
+            }
+            else
+            {
+                count = 0;                              //累加時間歸零
+                ScriptManager.RegisterClientScriptBlock(Page, GetType(), "close()", "close()", true);   //觸發 JS close函數
+            }
+
+
+
             if (x > 576 && y > 290 && x < 905 && y < 547)  //如果在該範圍
             {
                 xy("hover(0)", "click(0)", "");                   //呼叫觸發函數
@@ -78,8 +96,8 @@ namespace _1113_t2
             }
             else                                            //否則
             {
-                    count = 0;                              //累加時間歸零
-                    ScriptManager.RegisterClientScriptBlock(Page, GetType(), "close()", "close()", true);   //觸發 JS close函數
+                count = 0;                              //累加時間歸零
+                ScriptManager.RegisterClientScriptBlock(Page, GetType(), "close()", "close()", true);   //觸發 JS close函數
             }
         }
 
@@ -106,6 +124,6 @@ namespace _1113_t2
             }
         }
 
-        
+
     }
 }
