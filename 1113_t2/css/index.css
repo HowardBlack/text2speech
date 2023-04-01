@@ -46,8 +46,8 @@
 
 /* 鍵盤CSS */
 .Keyboard {
-    display: flex;    
-    justify-content: space-evenly;
+    display: flex;
+    justify-content: center;
     width: 100%;
     height: auto;
     background-color: #abea7a;
@@ -64,6 +64,9 @@
 
     .Keyboard .Pinyin {
     }
+        .Keyboard .Pinyin .Show {
+            justify-content: space-between;
+        }
 
         .Keyboard .Pinyin .Group {
             display: flex;

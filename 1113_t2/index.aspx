@@ -48,7 +48,7 @@
 
             <div class="Pinyin">
 
-                <div id="into1" style="display: block;">
+                <div class="Show" id="into1" style="display: flex;">
                     <button id="ㄅ" onclick="PinyinClick()">ㄅ</button>
                     <button id="ㄆ" onclick="PinyinClick()">ㄆ</button>
                     <button id="ㄇ" onclick="PinyinClick()">ㄇ</button>
@@ -58,7 +58,7 @@
                     <button id="ㄋ" onclick="PinyinClick()">ㄋ</button>
                 </div>
 
-                <div id="into2" style="display: none;">
+                <div class="Show" id="into2" style="display: none;">
                     <button id="ㄌ" onclick="PinyinClick()">ㄌ</button>
                     <button id="ㄍ" onclick="PinyinClick()">ㄍ</button>
                     <button id="ㄎ" onclick="PinyinClick()">ㄎ</button>
@@ -68,7 +68,7 @@
                     <button id="ㄒ" onclick="PinyinClick()">ㄒ</button>
                 </div>
 
-                <div id="into3" style="display: none;">
+                <div class="Show" id="into3" style="display: none;">
                     <button id="ㄓ" onclick="PinyinClick()">ㄓ</button>
                     <button id="ㄔ" onclick="PinyinClick()">ㄔ</button>
                     <button id="ㄕ" onclick="PinyinClick()">ㄕ</button>
@@ -78,13 +78,13 @@
                     <button id="ㄙ" onclick="PinyinClick()">ㄙ</button>
                 </div>
 
-                <div id="into4" style="display: none;">
+                <div class="Show" id="into4" style="display: none;">
                     <button id="ㄧ" onclick="PinyinClick()">ㄧ</button>
                     <button id="ㄨ" onclick="PinyinClick()">ㄨ</button>
                     <button id="ㄩ" onclick="PinyinClick()">ㄩ</button>
                 </div>
 
-                <div id="into5" style="display: none;">
+                <div class="Show" id="into5" style="display: none;">
                     <button id="ㄚ" onclick="PinyinClick()">ㄚ</button>
                     <button id="ㄛ" onclick="PinyinClick()">ㄛ</button>
                     <button id="ㄜ" onclick="PinyinClick()">ㄜ</button>
@@ -94,7 +94,7 @@
                     <button id="ㄠ" onclick="PinyinClick()">ㄠ</button>
                 </div>
 
-                <div id="into6" style="display: none;">
+                <div class="Show" id="into6" style="display: none;">
                     <button id="ㄡ" onclick="PinyinClick()">ㄡ</button>
                     <button id="ㄢ" onclick="PinyinClick()">ㄢ</button>
                     <button id="ㄣ" onclick="PinyinClick()">ㄣ</button>
@@ -103,7 +103,7 @@
                     <button id="ㄦ" onclick="PinyinClick()">ㄦ</button>
                 </div>
 
-                <div id="into7" style="display: none;">
+                <div class="Show" id="into7" style="display: none;">
                     <button id="ˊ" onclick="PinyinClick()">ˊ</button>
                     <button id="ˇ" onclick="PinyinClick()">ˇ</button>
                     <button id="ˋ" onclick="PinyinClick()">ˋ</button>
@@ -156,12 +156,10 @@
     <script src="index.js"></script>
     <script src="tts.js"></script>
     <script>
-        var api_uri = 'api/Text2Speache';
+        var api_url = 'api/Text2Speache';
         function testapi() {
-            
-
             $.ajax({
-                url: uri,
+                url: api_url,
                 method: "GET",
                 data: "pinyin=ㄨㄛˇ",
 
@@ -180,17 +178,18 @@
         function PinyinClick() { //注音鍵點擊事件
             let userInput = document.getElementById('userInput');
             userInput.textContent += event.target.textContent;
-
+            console.log(userInput.textContent)
             $.ajax({
-                url: '<%= ResolveUrl("~/sqlTest.aspx/Get_Unicode") %>',
-                method: 'POST',
-                data: JSON.stringify({ 'pinyin': userInput.textContent }),
+                url: api_url,
+                method: 'GET',
+                data: `pinyin=${userInput.textContent}`,
                 contentType: 'application/json; charset=urf-8',
                 success(result) {
                     // 清除先前文字選項
                     $('#textShow').empty();
                     // 將 unicode 陣列放置 resCode 變數
-                    const resCode = result['d'];
+                    const resCode = $.parseJSON(result);
+                    console.log(resCode)
                     // 判斷 resCode 是否有資料
                     if (resCode.length) {
                         // 設定 頁面總數 及 當前頁面 都是 1
@@ -199,7 +198,7 @@
                             // 為方便待會判斷，將 index + 1
                             index++;
                             // 將 unicode 轉成 16 進制                            
-                            const unicodeText = String.fromCharCode(parseInt(code, 16));
+                            const unicodeText = String.fromCharCode(parseInt(code["unicode"], 16));
                             // 判斷每頁元素是否存在，如果不存在即新增
                             if (!$(`.test${countPage}`).length)
                                 $('#textShow').append(`<div class="test${countPage}"></div>`);
@@ -242,7 +241,7 @@
             init();
 
             let temp = document.getElementById("into" + type);
-            temp.style.display = "block";
+            temp.style.display = "flex";
             // DisplayChange(temp,)
         }
 
@@ -264,7 +263,6 @@
             $('#textShow').empty();
         }
 
-        // 暫時有bug，頁面實際已經刪除，但html文字還在
         function PinyinDelete() { // 刪除 注音 或 選取文字
             // 如果 userInput 有長度，帶入 userInput，反之帶入 choiceText
             let textarea = ($('#userInput').val().length) ? $('#userInput') : $('#choiceText');           
