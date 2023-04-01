@@ -156,13 +156,14 @@
     <script src="index.js"></script>
     <script src="tts.js"></script>
     <script>
+        var api_uri = 'api/Text2Speache';
         function testapi() {
-            var uri = 'api/Text2Speache';
+            
 
             $.ajax({
                 url: uri,
                 method: "GET",
-                data: "data=ㄨㄛˇ",
+                data: "pinyin=ㄨㄛˇ",
 
                 success: function (res) {
                     var json = $.parseJSON(res);

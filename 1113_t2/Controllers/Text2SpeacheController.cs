@@ -15,10 +15,10 @@ namespace _1113_t2.Controllers
     {
         public static Text2Speach db = new Text2Speach("Text2Speache");
 
-        public string Get(string data)
+        public string Get(string pinyin)
         {
-            db.Query("123");
-            return "123";
+            List<Dictionary<string, string>> Words = db.GetWord(pinyin);
+            return JsonConvert.SerializeObject(Words);
         }
 
         public bool Update()

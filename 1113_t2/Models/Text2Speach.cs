@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,24 +15,19 @@ namespace _1113_t2.Models
         {
         }
 
-        class Pinyin
+        public List<Dictionary<string, string>> GetWord(string pinyin)
         {
+            //Select* from Words where pinyinId IN(Select id from Pinyins where Text = N'ㄨㄛˇ')
+            List<Dictionary<string, string>> Words =
+                Reader(Select("*", "Words", $"pinyinId IN ({Select("id", "Pinyins", $"Text = N'{pinyin}'")}) Order by Usecount DESC"));
+
+            return Words;
         }
 
-        class Cns
+        public void AddUsecount(int id)
         {
-        }
-
-        class Unicode
-        {
-        }
-
-
-
-
-        public void GetUnicode()
-        {
-
+            Query(
+                Update("Words", "Usecount += 1", $"id = {id}"));
         }
     }
 }

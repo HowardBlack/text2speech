@@ -25,7 +25,7 @@ namespace _1113_t2.Models
             Connection.Close();
         }
 
-        List<Dictionary<string, string>> Reader(string sql) //取得資料
+        public List<Dictionary<string, string>> Reader(string sql) //取得資料
         {
             Connection.Open();
             Command = new SqlCommand(sql, Connection);
