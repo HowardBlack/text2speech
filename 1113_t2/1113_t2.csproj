@@ -217,6 +217,8 @@
     <Compile Include="index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Block.cs" />
+    <Compile Include="Models\Button.cs" />
     <Compile Include="Models\DB.cs" />
     <Compile Include="Models\Keyboard.cs" />
     <Compile Include="Models\Pinyin.cs" />

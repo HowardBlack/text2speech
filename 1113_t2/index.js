@@ -1,15 +1,32 @@
-﻿let api_url = 'api/Text2Speache'; //api 路徑
+﻿var api_url = 'api/Text2Speache';
 
 // 設定 currentPage 為當前頁面 及 countPage 為頁面總數
 let currentPage, countPage;
 
-function PinyinClick(pinyin) { //注音鍵點擊事件
-    let userInput = document.getElementById('userInput');
-    userInput.textContent += event.target.textContent;
+function testapi() {
     $.ajax({
         url: api_url,
         method: 'GET',
-        data: `pinyin=${pinyin}`,
+        data: `pinyin=ㄅㄨˇ`,
+        success(result) {
+           console.log(result)
+        },
+        error(error) {
+            // 顯示連線錯誤訊息...
+            console.log(error);
+        }
+    })
+}
+
+function PinyinClick() { //注音鍵點擊事件
+    let userInput = document.getElementById('userInput');
+    userInput.textContent += event.target.textContent;
+
+    console.log(userInput.textContent)
+    $.ajax({
+        url: api_url,
+        method: 'GET',
+        data: `pinyin=${userInput.textContent}`,
         contentType: 'application/json; charset=urf-8',
         success(result) {
             // 清除先前文字選項
@@ -49,6 +66,56 @@ function PinyinClick(pinyin) { //注音鍵點擊事件
             console.log(error);
         }
     })
+}
+
+function initOption() {
+    $('.pinyinWord').each((e) => {
+        e.style('')
+    })
+}
+
+function PinyinChange(type) { //切換注音
+    function init() {
+        for (var i = 1; i < 8; i++) {
+            let temp = document.getElementById("into" + i);
+            temp.style.display = "none";
+        }
+    }
+
+    init();
+
+    let temp = document.getElementById("into" + type);
+    temp.style.display = "flex";
+    // DisplayChange(temp,)
+}
+
+function FontChange(p) { // 切換文字
+    const newPage = currentPage + p;
+    if (newPage > 0 && newPage <= countPage) {
+        $(`.test${currentPage}`).css('display', 'none');
+        $(`.test${newPage}`).css('display', 'block');
+        currentPage = newPage;
+    }
+}
+
+function InsertText(text) { // 新增點選文字至 choiceText textarea
+    // 加入選取文字至 choiceText
+    $('#choiceText').append(text);
+    // 清空 userInput textarea 以輸入下一個注音
+    $('#userInput').empty();
+    // 清空 textShow
+    $('#textShow').empty();
+}
+
+function PinyinDelete() { // 刪除 注音 或 選取文字
+    // 如果 userInput 有長度，帶入 userInput，反之帶入 choiceText
+    let textarea = ($('#userInput').val().length) ? $('#userInput') : $('#choiceText');
+    // 取出 textarea 原始文字
+    let originText = textarea.text();
+    // 刪除 textarea 最後一個字
+    let newText = originText.slice(0, -1);
+    // 將結果重新放回 textarea
+    textarea.text(newText);
 }
 
 function hover(x) {  //觸碰按鈕
