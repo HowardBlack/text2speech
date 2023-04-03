@@ -41,8 +41,7 @@ namespace _1113_t2.Models
         public bool CheckRange(double X) //判斷現在有沒有被看到
         {
             //輸入眼動儀的X軸坐標判斷這個按鈕有沒有在範圍裡 有就true 沒有就false
-
-            return true;
+            return (X >= Range[0] && X <= Range[1]);
         }
 
 
@@ -51,7 +50,7 @@ namespace _1113_t2.Models
             //把 Value 塞到 Event 裡面
             // 例 Event(Value)
 
-            return "";
+            return $"{Event}('{Value}')";
         }
     }
 }

@@ -36,7 +36,15 @@ namespace _1113_t2.Models
 
             //Button要帶的參數 string Text, string Event, string Value, double[] Range
 
-            //用for迴圈來新增按鈕進list裡
+            //用for迴圈來新增按鈕進list裡            
+            foreach (var rowData in Data)
+            {                
+                string Text = rowData[0].ToString();
+                string Event = rowData[1].ToString();
+                string Value = rowData[2].ToString();
+                double[] range = rowData[3].ToString().Split(',').Select(double.Parse).ToArray();
+                Buttons.Add(new Button(Text, Event, Value, range));
+            }
         }
 
         void ClearButtons() { Buttons.Clear(); } 
@@ -44,8 +52,7 @@ namespace _1113_t2.Models
         public bool CheckRange(double Y)//判斷現在有沒有被看到
         {
             //輸入眼動儀的Y軸坐標判斷這個區塊有沒有在範圍裡 有就true 沒有就false
-
-            return true;
+            return (Y >= Range[0] && Y <= Range[1]);
         }
         public string GetButtonEvent(double X)
         {
@@ -53,6 +60,10 @@ namespace _1113_t2.Models
             //for迴圈Buttos呼叫裡面的CheckRange(X)判斷是否被執行
             //被執行到時呼叫GetExecutEvent()回傳帶參數的事件
             //都沒被看到就回傳""空字串
+
+            foreach (Button btn in Buttons)
+                if (btn.CheckRange(X)) return btn.GetExecutEvent();
+
             return "";
         }
 

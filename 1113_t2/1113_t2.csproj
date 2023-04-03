@@ -221,6 +221,7 @@
     <Compile Include="Models\Button.cs" />
     <Compile Include="Models\DB.cs" />
     <Compile Include="Models\Keyboard.cs" />
+    <Compile Include="Models\Page.cs" />
     <Compile Include="Models\Pinyin.cs" />
     <Compile Include="Models\Text2Speach.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
