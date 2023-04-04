@@ -7,13 +7,11 @@ namespace _1113_t2.Models
 {
     public class Button //按鈕模型
     {
-        //沒有要帶參數的話就給""空值
-        //帶進來就不會再改變的參數 
-        public string Text { get; set; } //按鈕要成現的文字
+        string Text { get; set; } //按鈕要成現的文字
 
-        public string Event { get; set; } //這個按鈕被點擊到時要執行的事件
+        string Event { get; set; } //這個按鈕被點擊到時要執行的事件
 
-        public string Value { get; set; } //執行事件時要帶的參數 
+        string Value { get; set; } //執行事件時要帶的參數 
 
         double[] Range { get; set; } //這個按鈕在頁面會被執行到的X軸範圍 一定要有
 
@@ -24,9 +22,6 @@ namespace _1113_t2.Models
             this.Value = Value;
             this.Range = Range;
         }
-
-        //可變的參數
-
 
         //function
         public string GetText() { return Text; }
@@ -44,13 +39,16 @@ namespace _1113_t2.Models
             return (X >= Range[0] && X <= Range[1]);
         }
 
-
+        //沒有要call js的話就用不到了
         public string GetExecutEvent() //取得代參數的function名稱
         {
             //把 Value 塞到 Event 裡面
             // 例 Event(Value)
 
-            return $"{Event}('{Value}')";
+            //$"{Event}('{Value}')" 改成 $"{Event}({Value}) 不知道會不會有要傳數字參數的情況
+            // Value 是字串的時候 在建立時要自己加 ''
+
+            return $"{Event}({Value})";
         }
     }
 }

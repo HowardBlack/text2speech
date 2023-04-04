@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Xml.Linq;
 
@@ -11,21 +12,23 @@ namespace _1113_t2.Models
 {
     public class Text2Speach : Page //注音鍵盤頁面的模型
     {
-        DB DB { get; set; }
+        string Text { get; set; } //要顯示的文字
+
+        DB DB { get; set; } //資料庫
 
         string[,] Pinyins { get; set; } //注音資料
 
-        public int PinyinPage { get; set; } //現在要顯示的注音類型
+        int PinyinPage { get; set; } //現在要顯示的注音類型
 
         List<string[]> Words { get; set; } //文字資料
 
-        public int WordPage { get; set; } //現在要顯示的文字頁數
+        int WordPage { get; set; } //現在要顯示的文字頁數
 
-        List<Block> Blocks { get; set; } //頁面裡的區塊 用Y軸來分區塊
-
-        public Text2Speach(System.Web.UI.Page UIpage) : base(UIpage)
+        public Text2Speach()
         {
-            DB = new DB("Text2Speache");
+            Text = "";
+
+            DB = new DB("Text2Speache");  //帶的是資料庫名稱
 
             Pinyins = new string[,]{
             { "ㄅ", "ㄆ", "ㄇ", "ㄈ", "ㄉ", "ㄊ", "ㄋ" },
@@ -38,90 +41,118 @@ namespace _1113_t2.Models
 
             PinyinPage = 0;
 
-            Words = new List<string[]>() { 
+            Words = new List<string[]>() {
                 new string[] { "-1" ,"", "", "", "", "", "", "1"}  //第一個跟最後一個要塞-1, 1
             };
 
             WordPage = 0;
 
+
             //Block要帶的參數int ButtonCount, double[] Range, string[,] ButtonData
-            //string[,] ButtonData { get; set; } = { {"Text", "Event", "Value", "Range 給字串用逗號區隔"} }; 舉例 ButtonData要帶的參數形式有幾個按鈕就要有多少筆資料
+
+            //事件參數裡塞Text2Speach裡寫好的要call的function名稱就行 例: {"ㄅ", "InsertPinyin", "ㄅ", "82,282" }
+
             //第一區塊 文字顯示倒退鑑區塊
-            Blocks.Add(new Block(1, new double[] { 32, 232 }, new string[,] {
-                {"", "", "", "1424,1624" } // backspace 按鈕
+            AddBlock(new Block(1, new double[] { 32, 232 }, new string[,] {
+                {"", "Backspace", "", "1424,1624" } // backspace 按鈕
             }));
 
             //第二區塊 文字選取區塊 Value給Words[0]裡的參數就可以了換頁時在更新裡面的按鈕
-            Blocks.Add(new Block(8, new double[] { 242, 442 }, new string[,] {
-                {"⇦", "", "-1", "117,317" }, //上一頁按鈕
-                {"⇨", "", "1", "1587,1787" } //下一頁按鈕
+            AddBlock(new Block(8, new double[] { 242, 442 }, new string[,] {
+                {"⇦", "WordChangePage", "-1", "117,317" }, //上一頁按鈕
+                {"", "InsertWord", "", "" },
+                {"", "InsertWord", "", "" },
+                {"", "InsertWord", "", "" },
+                {"", "InsertWord", "", "" },
+                {"", "InsertWord", "", "" },
+                {"", "InsertWord", "", "" },
+                {"⇨", "WordChangePage", "1", "1587,1787" } //下一頁按鈕
             }));
 
             //第三區塊 注音區塊 Value給Pinyins[0]裡的參數就可以了換頁時在更新裡面的按鈕
-            Blocks.Add(new Block(8, new double[] { 517, 717 }, new string[,] {
-                {"ㄅ", "", "ㄅ", "82,282" }, //第一個按鈕
-                {"ㄆ", "", "ㄆ", "302,502" }, //第二個按鈕
-                {"ㄇ", "", "ㄇ", "522,722" }, //第三個按鈕
-                {"ㄈ", "", "ㄈ", "742,942" }, //第四個按鈕
-                {"ㄉ", "", "ㄉ", "962,1162" }, //第五個按鈕
-                {"ㄊ", "", "ㄊ", "1182,1382" }, //第六個按鈕
-                {"ㄋ", "", "ㄋ", "1402,1602" }, //第七個按鈕
+            AddBlock(new Block(8, new double[] { 517, 717 }, new string[,] {
+                {"ㄅ", "InsertPinyin", "ㄅ", "82,282" }, //第一個按鈕
+                {"ㄆ", "InsertPinyin", "ㄆ", "302,502" }, //第二個按鈕
+                {"ㄇ", "InsertPinyin", "ㄇ", "522,722" }, //第三個按鈕
+                {"ㄈ", "InsertPinyin", "ㄈ", "742,942" }, //第四個按鈕
+                {"ㄉ", "InsertPinyin", "ㄉ", "962,1162" }, //第五個按鈕
+                {"ㄊ", "InsertPinyin", "ㄊ", "1182,1382" }, //第六個按鈕
+                {"ㄋ", "InsertPinyin", "ㄋ", "1402,1602" }, //第七個按鈕
                 {"PLAY", "", "", "1622,1822" } // PLAY 按鈕
             }));
 
             //第四區塊 注音切換區塊
-            Blocks.Add(new Block(8, new double[] { 737, 937 }, new string[,] {
-                {"ㄅ~ㄋ聲母", "", "1", "82,282" },    //第一個按鈕
-                {"ㄌ~ㄒ聲母", "", "2", "302,502" },   //第二個按鈕
-                {"ㄓ~ㄙ聲母", "", "3", "522,722" },   //第三個按鈕
-                {"ㄧ~ㄩ介音", "", "4", "742,942" },   //第四個按鈕
-                {"ㄚ~ㄠ韻母", "", "5", "962,1162" },  //第五個按鈕
-                {"ㄡ~ㄦ韻母", "", "6", "1182,1382" }, //第六個按鈕
-                {"聲調", "", "7", "1402,1602" },      //第七個按鈕
+            AddBlock(new Block(8, new double[] { 737, 937 }, new string[,] {
+                {"ㄅ~ㄋ聲母", "PinyinChangePage", "1", "82,282" },    //第一個按鈕
+                {"ㄌ~ㄒ聲母", "PinyinChangePage", "2", "302,502" },   //第二個按鈕
+                {"ㄓ~ㄙ聲母", "PinyinChangePage", "3", "522,722" },   //第三個按鈕
+                {"ㄧ~ㄩ介音", "PinyinChangePage", "4", "742,942" },   //第四個按鈕
+                {"ㄚ~ㄠ韻母", "PinyinChangePage", "5", "962,1162" },  //第五個按鈕
+                {"ㄡ~ㄦ韻母", "PinyinChangePage", "6", "1182,1382" }, //第六個按鈕
+                {"聲調", "PinyinChangePage", "7", "1402,1602" },      //第七個按鈕
                 {"CANCEL", "", "", "1622,1822" }      // CANCEL 按鈕
-            })); 
+            }));
+            
+       }
+
+        public string GetText() { return Text; }
+
+        public void SetText(string text) {  Text = text; }
+
+        public int GetPinyinPage() { return PinyinPage; }
+
+        public void SetPinyinPage(int page) { PinyinPage = page; }
+
+        public int GetWordPage() { return WordPage; }
+
+        public void SetWordPage(int page) { WordPage = page; }
 
 
-        }
+        //按鈕的事件 只能帶字串類型的參數 自己轉型態
+        void Backspace() { } //到退鍵的事件
 
-        public string CheckClick(double X, double Y) //判斷看到哪個區塊了
+        void InsertWord(string str) //文字事件
         {
-            //用for迴圈來呼叫Blocks裡的CheckRange(Y) 
-            //True
-            //要先知道在哪個區塊裡面
-            //如果再 文字選取區塊 或 注音切換區塊 要call WordChangePage 或 PinyinChangePage 
-            //回傳 GetButtonEvent(X)得到是被按到按鈕的事件 字串
+            //跟注音的原理一樣
+        } 
 
-            for (var i = 0; i < Blocks.Count; i++) // for 迴圈走訪 Blocks
-            {
-                Block block = Blocks[i];
-                if (block.CheckRange(Y)) // 在範圍裡
-                {
-                    if (i == 1) // 在 文字選取區塊
-                        WordChangePage(WordPage);
-                    else if (i == 3) // 在 注音切換區塊
-                        PinyinChangePage(PinyinPage);
-                    return block.GetButtonEvent(X); // 無論在哪，取得這個按鈕執行什麼方法
-                }
-            }
-
-            //False
-            //回傳空字串
-            return "";
-        }
-
-        void PinyinChangePage(int page) //先不要管這個
+        void WordChangePage(string page) //文字切換事件
         {
-            PinyinPage = page;
-            Blocks[2].SetButtons(new string[,]{ }); //更新按鈕的資料
+            //跟注音切換的原理一樣
+            SetWordPage(int.Parse(page));
+            GetBlock(1).SetButtons(new string[,] { }); //更新按鈕的資料
         }
 
-        void WordChangePage(int page) //先不要管這個
+        void InsertPinyin(string str) //注音事件
         {
-            WordPage = page;
-            Blocks[1].SetButtons(new string[,] { }); //更新按鈕的資料
+            //把被點到的按鈕的text塞進要顯示的text裡
+            //多注音切割後分批call SearchWords()
         }
 
+        void PinyinChangePage(string page) //輸入注音切換事件
+        {
+            SetPinyinPage(int.Parse(page));
+            GetBlock(2).SetButtons(new string[,] { }); //更新按鈕的資料
+
+
+            //想不到怎樣寫比較好
+
+            //SetButtons() 裡的資料就像這個 1, 3的參數換成對應頁數的注音
+            //想不到怎樣寫比較好
+            /*AddBlock(new Block(8, new double[] { 517, 717 }, new string[,] {
+                {"ㄅ", "InsertPinyin", "ㄅ", "82,282" }, //第一個按鈕
+                {"ㄆ", "InsertPinyin", "ㄆ", "302,502" }, //第二個按鈕
+                {"ㄇ", "InsertPinyin", "ㄇ", "522,722" }, //第三個按鈕
+                {"ㄈ", "InsertPinyin", "ㄈ", "742,942" }, //第四個按鈕
+                {"ㄉ", "InsertPinyin", "ㄉ", "962,1162" }, //第五個按鈕
+                {"ㄊ", "InsertPinyin", "ㄊ", "1182,1382" }, //第六個按鈕
+                {"ㄋ", "InsertPinyin", "ㄋ", "1402,1602" }, //第七個按鈕
+                {"PLAY", "", "", "1622,1822" } // PLAY 按鈕
+            }));*/
+        }
+        //
+
+        //從資料庫找對應的字
         public void SearchWords(string str) //先不要管這個
         {
             List<Dictionary<string, string>> getWords()

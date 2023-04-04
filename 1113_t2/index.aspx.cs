@@ -17,8 +17,7 @@ namespace _1113_t2
 {
     public partial class index : System.Web.UI.Page
     {
-        static int[] deviation = { 0, 1 };
-        Pinyin pinyin = new Pinyin(deviation);
+        Text2Speach Text2Speach = new Text2Speach();
 
         Thread tt;
         SerialPort arduino;
@@ -64,16 +63,17 @@ namespace _1113_t2
 
         protected void Timer1_Tick(object sender, EventArgs e)
         {
-            if (pinyin.checkClick(x, y))
+            //寫if
+            //在看到按鈕時觸發按鈕事件
+            //沒有時call ResetCount()
+
+            if (Text2Speach.ButtonIsSeen()) //判斷是否是在看按鈕
             {
-                //幫我測fun會是甚麼
-                string fun = pinyin.Click();
-                Debug.WriteLine(fun);  
+
             }
-            else
+            else 
             {
-                count = 0;                              //累加時間歸零
-                ScriptManager.RegisterClientScriptBlock(Page, GetType(), "close()", "close()", true);   //觸發 JS close函數
+                Text2Speach.ResetWatchingTime();
             }
 
 
