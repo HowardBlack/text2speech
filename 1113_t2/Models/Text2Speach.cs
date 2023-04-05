@@ -24,7 +24,7 @@ namespace _1113_t2.Models
 
         int WordPage { get; set; } //現在要顯示的文字頁數
 
-        public Text2Speach()
+        public Text2Speach():base(10)
         {
             Text = "";
 
@@ -109,27 +109,34 @@ namespace _1113_t2.Models
 
 
         //按鈕的事件 只能帶字串類型的參數 自己轉型態
-        void Backspace() { } //到退鍵的事件
+        public void Backspace() { } //到退鍵的事件
 
-        void InsertWord(string str) //文字事件
+        public void InsertWord(string str) //文字事件
         {
             //跟注音的原理一樣
-        } 
 
-        void WordChangePage(string page) //文字切換事件
+
+
+            //AddUseCount();
+        }
+
+        public void WordChangePage(string page) //文字切換事件
         {
             //跟注音切換的原理一樣
             SetWordPage(int.Parse(page));
             GetBlock(1).SetButtons(new string[,] { }); //更新按鈕的資料
         }
 
-        void InsertPinyin(string str) //注音事件
+        public void InsertPinyin(string str) //注音事件
         {
             //把被點到的按鈕的text塞進要顯示的text裡
             //多注音切割後分批call SearchWords()
+
+
+            //SearchWords(str);
         }
 
-        void PinyinChangePage(string page) //輸入注音切換事件
+        public void PinyinChangePage(string page) //輸入注音切換事件
         {
             SetPinyinPage(int.Parse(page));
             GetBlock(2).SetButtons(new string[,] { }); //更新按鈕的資料
@@ -152,10 +159,10 @@ namespace _1113_t2.Models
         }
         //
 
-        //從資料庫找對應的字
-        public void SearchWords(string str) //先不要管這個
+        //帶注音
+        void SearchWords(string str) //從資料庫找對應的字 先不要管這個
         {
-            List<Dictionary<string, string>> getWords()
+            /*List<Dictionary<string, string>> getWords()
             {
                 //Select* from Words where pinyinId IN(Select id from Pinyins where Text = N'ㄨㄛˇ')
                 List<Dictionary<string, string>> temps =
@@ -165,7 +172,14 @@ namespace _1113_t2.Models
                 return temps;
             }
 
-            List<Dictionary<string, string>> Words = getWords();
+            List<Dictionary<string, string>> Words = getWords();*/
+        }
+
+        //帶文字的ID或是unicode碼 
+        void AddUsecount(int id)//增加文字使用次數 先不要管這個
+        {
+            DB.Query(
+                DB.Update("Words", "Usecount += 1", $"id = {id}"));
         }
     }
 }
