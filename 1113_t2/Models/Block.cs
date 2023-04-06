@@ -29,13 +29,12 @@ namespace _1113_t2.Models
         {
             ClearButtons();
 
-            //用for迴圈來新增按鈕進list裡
-            foreach (var rowData in Data)
-            {                
-                string Text = rowData[0].ToString();
-                string Event = rowData[1].ToString();
-                string Value = rowData[2].ToString();
-                double[] range = rowData[3].ToString().Split(',').Select(double.Parse).ToArray();
+            for (int row = 0; row < Data.GetLength(0); row++)
+            {
+                string Text = Data[row, 0].ToString();
+                string Event = Data[row, 1].ToString();
+                string Value = Data[row, 2].ToString();
+                double[] range = Data[row, 3].ToString().Split(',').Select(double.Parse).ToArray();
                 Buttons.Add(new Button(Text, Event, Value, range));
             }
         }
