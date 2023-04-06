@@ -15,7 +15,7 @@ using _1113_t2.Models;
 
 namespace _1113_t2
 {
-    public partial class index : System.Web.UI.Page
+    public partial class index : Page
     {
         Thread tt;
         readonly Text2Speach Text2Speach = new Text2Speach();

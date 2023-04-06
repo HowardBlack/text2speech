@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace _1113_t2.Models
 {
-    public class Text2Speach : Page //注音鍵盤頁面的模型
+    public class Text2Speach : Main //注音鍵盤頁面的模型
     {
         string Text { get; set; } //要顯示的文字
         string PinyinText { get; set; } //要顯示的注音文字
@@ -66,12 +66,12 @@ namespace _1113_t2.Models
             //第二區塊 文字選取區塊 Value給Words[0]裡的參數就可以了換頁時在更新裡面的按鈕
             AddBlock(new Block(8, new double[] { 242, 442 }, new string[,] {
                 {"⇦", "WordChangePage", "-1", "117,317" }, //上一頁按鈕
-                {"", "InsertWord", "", "" },
-                {"", "InsertWord", "", "" },
-                {"", "InsertWord", "", "" },
-                {"", "InsertWord", "", "" },
-                {"", "InsertWord", "", "" },
-                {"", "InsertWord", "", "" },
+                {"", "InsertWord", "", "117,317" },
+                {"", "InsertWord", "", "117,317" },
+                {"", "InsertWord", "", "117,317" },
+                {"", "InsertWord", "", "117,317" },
+                {"", "InsertWord", "", "117,317" },
+                {"", "InsertWord", "", "117,317" },
                 {"⇨", "WordChangePage", "1", "1587,1787" } //下一頁按鈕
             }));
 

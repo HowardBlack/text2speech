@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -28,7 +29,7 @@ namespace _1113_t2.Models
         public void SetButtons(string[,] Data) //在執行換頁類型的功能時刷新現在區塊裡有的按鈕
         {
             ClearButtons();
-
+            Debug.WriteLine(Data);
             for (int row = 0; row < Data.GetLength(0); row++)
             {
                 string Text = Data[row, 0].ToString();

@@ -10,7 +10,7 @@ using Tobii.EyeX.Framework;
 
 namespace _1113_t2.Models
 {
-    public class Page
+    public class Main : Page
     {
         double X { get; set; }
         double Y { get; set; }
@@ -22,12 +22,13 @@ namespace _1113_t2.Models
         List<Block> Blocks { get; set; } //頁面裡的區塊 用Y軸來分區塊
         Button ButtonSeen { get; set; } //被看到的按鈕
 
-        public Page(int overWatchingTime)
+        public Main(int overWatchingTime)
         {
             X = 0;
             Y = 0;
             WatchingTime = 0;
             OverWatchingTime = overWatchingTime;
+            Blocks = new List<Block>();
         }
 
         public void AddBlock(Block block) { Blocks.Add(block); }
@@ -41,12 +42,27 @@ namespace _1113_t2.Models
             //先判斷視線是否有在該區塊上
             //後判斷視線是否在該區塊裡的按鈕上
             //後得到該按鈕
-            ButtonSeen = Blocks.Where(block => block.CheckRange(Y))
-                            .SelectMany(block => block.GetButtons().Where(button => button.CheckRange(X)))
-                            .FirstOrDefault();
+            var ButtonTemp = ButtonSeen; //暫存上一個看到的按鈕
 
-            //如果視線不再按鈕上注視時間歸零
-            if (ButtonSeen == null) ResetWatchingTime();
+            ButtonSeen = null; //重製按鈕
+
+            foreach (var block in Blocks)
+            {
+                if (block.CheckRange(Y)) 
+                {
+                    foreach (var button in block.GetButtons())
+                    {
+                        if (button.CheckRange(X)) 
+                        {
+                            ButtonSeen = button;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //如果視線不再按鈕上 或 看的不是同一個按鈕 注視時間重置
+            if (ButtonSeen == null || ButtonTemp != ButtonSeen) ResetWatchingTime();
 
             //判斷是否有的到按鈕
             return ButtonSeen != null;
