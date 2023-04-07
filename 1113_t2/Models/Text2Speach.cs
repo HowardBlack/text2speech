@@ -43,12 +43,10 @@ namespace _1113_t2.Models
             { "ㄡ", "ㄢ", "ㄣ", "ㄤ", "ㄥ", "ㄦ", "" },
             { "ˊ", "ˇ", "ˋ", "˙", "", "", "" }};
 
-            Pinyins_x = new string[] { "82,282", "302,502", "522,722", "742,942", "962,1162", "1182,1382", "1402,1602", "1622,1822" };
-
             PinyinPage = 0;
 
             Words = new List<string[]>() {
-                new string[] { "-1" ,"", "", "", "", "", "", "1"}  //第一個跟最後一個要塞-1, 1
+                new string[] { "-1" ,"", "", "", "", "", "", "1"},  //第一個跟最後一個要塞-1, 1
             };
 
             WordPage = 0;
@@ -66,12 +64,12 @@ namespace _1113_t2.Models
             //第二區塊 文字選取區塊 Value給Words[0]裡的參數就可以了換頁時在更新裡面的按鈕
             AddBlock(new Block(8, new double[] { 242, 442 }, new string[,] {
                 {"⇦", "WordChangePage", "-1", "117,317" }, //上一頁按鈕
-                {"", "InsertWord", "", "117,317" },
-                {"", "InsertWord", "", "117,317" },
-                {"", "InsertWord", "", "117,317" },
-                {"", "InsertWord", "", "117,317" },
-                {"", "InsertWord", "", "117,317" },
-                {"", "InsertWord", "", "117,317" },
+                {"", "InsertWord", "", "327,527" },
+                {"", "InsertWord", "", "537,737" },
+                {"", "InsertWord", "", "747,947" },
+                {"", "InsertWord", "", "957,1157" },
+                {"", "InsertWord", "", "1167,1367" },
+                {"", "InsertWord", "", "1377,15777" },
                 {"⇨", "WordChangePage", "1", "1587,1787" } //下一頁按鈕
             }));
 
@@ -140,10 +138,10 @@ namespace _1113_t2.Models
 
         public void InsertWord(string str) //文字事件
         {
-            //GetTet() 取得文字框內的文字，再加上 str 新增的文字，最後 SetText() 重新設定在文字框內
-            SetText(GetText() + str);
-            //暫時未清除注音及文字選字區塊
-
+            SetText(GetText() + str); //設定文字
+            SetPinyinText(""); //清除注音
+            WordPage = 0;      //清除文字選字頁數
+            Words = new List<string[]>(); //清除所有文字選字
             //AddUseCount();
         }
 
@@ -151,7 +149,17 @@ namespace _1113_t2.Models
         {
             //跟注音切換的原理一樣
             SetWordPage(int.Parse(page));
-            GetBlock(1).SetButtons(new string[,] { }); //更新按鈕的資料
+            
+            List<Button> previusButtons = GetBlock(1).GetButtons(); //取得所有文字的 buttons 資料
+            string[] currentWords = Words[WordPage]; //取得目前頁面的所有文字
+            for (int i = 1; i < previusButtons.Count - 1; i++)
+            {                
+                string word = currentWords[i]; //取得該文字資料
+                previusButtons[i].SetText(word); //設定該button的文字
+                previusButtons[i].SetValue(word); //設定該button的值
+            }
+
+            //GetBlock(1).SetButtons(new string[,] { }); //更新按鈕的資料
         }
 
         public void InsertPinyin(string str) //注音事件
@@ -167,23 +175,16 @@ namespace _1113_t2.Models
         public void PinyinChangePage(string page) //輸入注音切換事件
         {
             SetPinyinPage(int.Parse(page));
-
-            string[,] newPinyinButtons = new string[,] { };
             
-            for (int i = 0; i < 7; i++)
+            List<Button> previusButtons = GetBlock(2).GetButtons(); //取得所有注音的 buttons 資料
+            for (int i = 0; i < previusButtons.Count - 1; i++) 
             {
-                newPinyinButtons[i, 0] = Pinyins[PinyinPage, i];
-                newPinyinButtons[i, 1] = "InsertPinyin";
-                newPinyinButtons[i, 2] = Pinyins[PinyinPage, i]; ;
-                newPinyinButtons[i, 3] = Pinyins_x[i];
+                string textValue = Pinyins[GetPinyinPage(), i]; //取得相對應頁數的注音
+                previusButtons[i].SetText(textValue); //設定該button的文字
+                previusButtons[i].SetValue(textValue); //設定該button的值
             }
 
-            newPinyinButtons[7, 1] = "PLAY";
-            newPinyinButtons[7, 2] = "";
-            newPinyinButtons[7, 3] = "";
-            newPinyinButtons[7, 4] = Pinyins_x[7];
-
-            GetBlock(2).SetButtons(newPinyinButtons); //更新按鈕的資料
+            // GetBlock(2).SetButtons(newPinyinButtons); //更新按鈕的資料
 
             //SetButtons() 裡的資料就像這個 1, 3的參數換成對應頁數的注音
             //想不到怎樣寫比較好

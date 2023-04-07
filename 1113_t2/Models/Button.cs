@@ -26,9 +26,13 @@ namespace _1113_t2.Models
         //function
         public string GetText() { return Text; }
 
-        public string GetEvent() { return Event; }
+        public void SetText(string str) { Text = str; }
+
+        public string GetEvent() { return Event; }        
 
         public string GetValue() { return Value; }
+
+        public void SetValue(string str) { Value = str; }
 
         public double[] GetRange() { return Range; }
 

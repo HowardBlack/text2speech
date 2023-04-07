@@ -220,7 +220,7 @@
     <Compile Include="Models\Block.cs" />
     <Compile Include="Models\Button.cs" />
     <Compile Include="Models\DB.cs" />
-    <Compile Include="Models\Page.cs">
+    <Compile Include="Models\Main.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\Text2Speach.cs">
