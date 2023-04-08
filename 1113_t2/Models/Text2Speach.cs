@@ -12,56 +12,51 @@ namespace _1113_t2.Models
 {
     public class Text2Speach : Main //注音鍵盤頁面的模型
     {
-        string Text { get; set; } //要顯示的文字
+        string WordText { get; set; } //要顯示的文字
         string PinyinText { get; set; } //要顯示的注音文字
 
         DB DB { get; set; } //資料庫
 
-        string[,] Pinyins { get; set; } //注音資料
+        List<string[]> Pinyins { get; set; } //注音資料
 
         string[] Pinyins_x { get; set; }
 
         int PinyinPage { get; set; } //現在要顯示的注音類型
 
-        List<string[]> Words { get; set; } //文字資料
+        List<List<Dictionary<string, string>>> Words { get; set; } //文字資料
 
         int WordPage { get; set; } //現在要顯示的文字頁數
 
-        public Text2Speach():base(10)
+        public Text2Speach() : base(10)
         {
-            Text = "";
-            PinyinText = "";
+            WordText = "123"; //文字
+
+            PinyinText = ""; //注音
 
             DB = new DB("Text2Speache");  //帶的是資料庫名稱
 
-            Pinyins = new string[,] {
-            { "ㄅ", "ㄆ", "ㄇ", "ㄈ", "ㄉ", "ㄊ", "ㄋ" },
-            { "ㄌ", "ㄍ", "ㄎ", "ㄏ", "ㄐ", "ㄑ", "ㄒ" },
-            { "ㄓ", "ㄔ", "ㄕ", "ㄖ", "ㄗ", "ㄘ", "ㄙ" },
-            { "ㄧ", "ㄨ", "ㄩ", "", "", "", "" },
-            { "ㄚ", "ㄛ", "ㄜ", "ㄝ", "ㄞ", "ㄟ", "ㄠ" },
-            { "ㄡ", "ㄢ", "ㄣ", "ㄤ", "ㄥ", "ㄦ", "" },
-            { "ˊ", "ˇ", "ˋ", "˙", "", "", "" }};
+            Pinyins = new List<string[]>()
+            {
+                new string[]{ "ㄅ", "ㄆ", "ㄇ", "ㄈ", "ㄉ", "ㄊ", "ㄋ" },
+                new string[]{ "ㄓ", "ㄔ", "ㄕ", "ㄖ", "ㄗ", "ㄘ", "ㄙ" },
+                new string[]{ "ㄧ", "ㄨ", "ㄩ", "", "", "", "" },
+                new string[]{ "ㄚ", "ㄛ", "ㄜ", "ㄝ", "ㄞ", "ㄟ", "ㄠ"},
+                new string[]{ "ㄡ", "ㄢ", "ㄣ", "ㄤ", "ㄥ", "ㄦ", "" },
+                new string[]{ "ˊ", "ˇ", "ˋ", "˙", "", "", "" },
+            };
 
             PinyinPage = 0;
 
-            Words = new List<string[]>() {
-                new string[] { "-1" ,"", "", "", "", "", "", "1"},  //第一個跟最後一個要塞-1, 1
-            };
+            Words = new List<List<Dictionary<string, string>>>();
 
             WordPage = 0;
 
-
-            //Block要帶的參數int ButtonCount, double[] Range, string[,] ButtonData
-
-            //事件參數裡塞Text2Speach裡寫好的要call的function名稱就行 例: {"ㄅ", "InsertPinyin", "ㄅ", "82,282" }
-
             //第一區塊 文字顯示倒退鑑區塊
             AddBlock(new Block(1, new double[] { 32, 232 }, new string[,] {
-                {"", "Backspace", "", "1424,1624" } // backspace 按鈕
+                {"⇦backspace", "Backspace", "", "1424,1624" } // backspace 按鈕
             }));
 
-            //第二區塊 文字選取區塊 Value給Words[0]裡的參數就可以了換頁時在更新裡面的按鈕
+            //第二區塊 文字選取區塊
             AddBlock(new Block(8, new double[] { 242, 442 }, new string[,] {
                 {"⇦", "WordChangePage", "-1", "117,317" }, //上一頁按鈕
                 {"", "InsertWord", "", "327,527" },
@@ -82,7 +77,7 @@ namespace _1113_t2.Models
                 {"ㄉ", "InsertPinyin", "ㄉ", "962,1162" }, //第五個按鈕
                 {"ㄊ", "InsertPinyin", "ㄊ", "1182,1382" }, //第六個按鈕
                 {"ㄋ", "InsertPinyin", "ㄋ", "1402,1602" }, //第七個按鈕
-                {"PLAY", "", "", "1622,1822" } // PLAY 按鈕
+                {"PLAY", "PlayVoice", "", "1622,1822" } // PLAY 按鈕
             }));
 
             //第四區塊 注音切換區塊
@@ -94,18 +89,22 @@ namespace _1113_t2.Models
                 {"ㄚ~ㄠ韻母", "PinyinChangePage", "4", "962,1162" },  //第五個按鈕
                 {"ㄡ~ㄦ韻母", "PinyinChangePage", "5", "1182,1382" }, //第六個按鈕
                 {"聲調", "PinyinChangePage", "6", "1402,1602" },      //第七個按鈕
-                {"CANCEL", "", "", "1622,1822" }      // CANCEL 按鈕
+                {"CANCEL", "CloseVoice", "", "1622,1822" }      // CANCEL 按鈕
             }));
-            
-       }
 
-        public string GetText() { return Text; }
+        }
 
-        public void SetText(string text) {  Text = text; }
+        public string GetWordText() { return WordText; }
+
+        public void SetWordText(string text) { WordText = text; }
 
         public string GetPinyinText() { return PinyinText; }
 
         public void SetPinyinText(string text) { PinyinText = text; }
+
+        public List<string[]> GetPinyins() { return Pinyins; }
+
+        public string[] GetPinyins(int index) { return Pinyins[index]; }
 
         public int GetPinyinPage() { return PinyinPage; }
 
@@ -116,7 +115,7 @@ namespace _1113_t2.Models
         public void SetWordPage(int page) { WordPage = page; }
 
 
-        //按鈕的事件 只能帶字串類型的參數 自己轉型態
+        //按鈕事件
         public void Backspace() //到退鍵的事件
         {
             /*
@@ -131,30 +130,32 @@ namespace _1113_t2.Models
             }
             else
             {
-                string NewText = GetText().Remove(GetText().Length - 1, 1); // 刪除選取文字區塊最後一個字
-                SetText(NewText); // 重新設定選取文字區塊文字
+                string NewText = GetWordText().Remove(GetWordText().Length - 1, 1); // 刪除選取文字區塊最後一個字
+                SetWordText(NewText); // 重新設定選取文字區塊文字
             }
         }
 
         public void InsertWord(string str) //文字事件
         {
-            SetText(GetText() + str); //設定文字
+            AddUsecount(str); //增加使用次數
+            SetWordText(GetWordText() + str); //設定文字
             SetPinyinText(""); //清除注音
-            WordPage = 0;      //清除文字選字頁數
-            Words = new List<string[]>(); //清除所有文字選字
-            //AddUseCount();
+            SetWordPage(0);      //清除文字選字頁數
+            Words.Clear(); ; //清除所有文字選字
+
         }
 
         public void WordChangePage(string page) //文字切換事件
         {
-            //跟注音切換的原理一樣
             SetWordPage(int.Parse(page));
-            
+
             List<Button> previusButtons = GetBlock(1).GetButtons(); //取得所有文字的 buttons 資料
-            string[] currentWords = Words[WordPage]; //取得目前頁面的所有文字
+            List<Dictionary<string, string>> currentWords = Words[WordPage]; //取得目前頁面的所有文字
             for (int i = 1; i < previusButtons.Count - 1; i++)
-            {                
-                string word = currentWords[i]; //取得該文字資料
+            {
+                //要轉碼
+                string word = currentWords[i]["unicode"]; //取得該文字資料
+
                 previusButtons[i].SetText(word); //設定該button的文字
                 previusButtons[i].SetValue(word); //設定該button的值
             }
@@ -166,62 +167,59 @@ namespace _1113_t2.Models
         {
             //把被點到的按鈕的text塞進要顯示的text裡
             SetPinyinText(GetPinyinText() + str);
+
             //多注音切割後分批call SearchWords()
             SearchWords(GetPinyinText()); //帶入全部注音
-
-            //SearchWords(str);
         }
 
         public void PinyinChangePage(string page) //輸入注音切換事件
         {
             SetPinyinPage(int.Parse(page));
-            
+
             List<Button> previusButtons = GetBlock(2).GetButtons(); //取得所有注音的 buttons 資料
-            for (int i = 0; i < previusButtons.Count - 1; i++) 
+            for (int i = 0; i < previusButtons.Count - 1; i++)
             {
-                string textValue = Pinyins[GetPinyinPage(), i]; //取得相對應頁數的注音
+                string textValue = Pinyins[GetPinyinPage()][i]; //取得相對應頁數的注音
                 previusButtons[i].SetText(textValue); //設定該button的文字
                 previusButtons[i].SetValue(textValue); //設定該button的值
             }
-
-            // GetBlock(2).SetButtons(newPinyinButtons); //更新按鈕的資料
-
-            //SetButtons() 裡的資料就像這個 1, 3的參數換成對應頁數的注音
-            //想不到怎樣寫比較好
-            /*AddBlock(new Block(8, new double[] { 517, 717 }, new string[,] {
-                {"ㄅ", "InsertPinyin", "ㄅ", "82,282" }, //第一個按鈕
-                {"ㄆ", "InsertPinyin", "ㄆ", "302,502" }, //第二個按鈕
-                {"ㄇ", "InsertPinyin", "ㄇ", "522,722" }, //第三個按鈕
-                {"ㄈ", "InsertPinyin", "ㄈ", "742,942" }, //第四個按鈕
-                {"ㄉ", "InsertPinyin", "ㄉ", "962,1162" }, //第五個按鈕
-                {"ㄊ", "InsertPinyin", "ㄊ", "1182,1382" }, //第六個按鈕
-                {"ㄋ", "InsertPinyin", "ㄋ", "1402,1602" }, //第七個按鈕
-                {"PLAY", "", "", "1622,1822" } // PLAY 按鈕
-            }));*/
         }
+
+        public void PlayVoice() { } //播放聲音
+
+        public void CloseVoice() { } //關閉聲音
         //
 
         //帶注音
         void SearchWords(string str) //從資料庫找對應的字 先不要管這個
         {
-            /*List<Dictionary<string, string>> getWords()
+            List<Dictionary<string, string>> getWords()
             {
-                //Select* from Words where pinyinId IN(Select id from Pinyins where Text = N'ㄨㄛˇ')
-                List<Dictionary<string, string>> temps =
-                    DB.Reader(
+                return DB.Reader(
                         DB.Select("*", "Words", $"pinyinId IN ({DB.Select("id", "Pinyins", $"Text = N'{str}'")}) Order by Usecount DESC"));
-
-                return temps;
             }
 
-            List<Dictionary<string, string>> Words = getWords();*/
+            List<Dictionary<string, string>> temps = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> item in getWords())
+            {
+                temps.Add(item);
+
+                if (temps.Count == 6)
+                {
+                    Words.Add(temps);
+                    temps.Clear();
+                }
+            }
+
+            if (temps.Count > 0) Words.Add(temps);
         }
 
         //帶文字的ID或是unicode碼 
-        void AddUsecount(int id)//增加文字使用次數 先不要管這個
+        void AddUsecount(string str)//增加文字使用次數 先不要管這個
         {
             DB.Query(
-                DB.Update("Words", "Usecount += 1", $"id = {id}"));
+                DB.Update("Words", "Usecount += 1", $"unicode = {str}"));
         }
     }
 }

@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Tobii.Interaction;
-using Tobii.EyeX.Framework;
-using Tobii.EyeX.Client;
-using EyeXFramework;
-using System.Diagnostics;
+﻿using _1113_t2.Models;
+using System;
 using System.Threading;
-using System.IO.Ports;
-using _1113_t2.Models;
+using System.Web.UI;
 
 namespace _1113_t2
 {
     public partial class index : Page
     {
         Thread tt;
-        readonly Text2Speach Text2Speach = new Text2Speach();
+        public static Text2Speach Text2Speach = new Text2Speach();
 
         protected void Page_Load(object sender, EventArgs e)
         {

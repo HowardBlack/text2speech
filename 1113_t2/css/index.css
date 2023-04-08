@@ -32,17 +32,13 @@
     display: flex;
     justify-content: center;
 }
-
-/* 測試文字效果 可刪掉 */
-.test { 
-    border-radius: 20px;
-    font-size: 35px;
-    margin: 5px;
-    width: 200px;
-    height: 200px;
-}
-
-/* 測試文字效果 可刪掉 */
+    .Showblock button {
+        border-radius: 20px;
+        font-size: 35px;
+        margin: 10px;
+        width: 200px;
+        height: 200px;
+    }
 
 /* 鍵盤CSS */
 .Keyboard {

@@ -29,18 +29,35 @@
                 <select id="voices"></select>
                 <!-- 有必要嗎 沒有的話就刪掉 -->
                 <br />
-                <div style="display:flex; justify-content: center;">
-                    <textarea id="userInput" disabled="disabled"></textarea>
-                    <textarea id="choiceText" disabled="disabled"></textarea>
-                    <button class="test" id="pinyinDelete" onclick="PinyinDelete()">⇦backspace</button>
+                <div style="display: flex; justify-content: center;">
+                    <textarea id="userInput" disabled="disabled"><%= _1113_t2.index.Text2Speach.GetWordText() %></textarea>
+                    <textarea id="choiceText" disabled="disabled"><%= _1113_t2.index.Text2Speach.GetPinyinText() %></textarea>
+                    <%
+                        foreach (var item in _1113_t2.index.Text2Speach.GetBlock(0).GetButtons())
+                        {
+                    %>
+                    <button><%=item.GetText() %></button>
+                    <%
+                        }
+                    %>
+
+                    <!--<button class="test" id="pinyinDelete" onclick="PinyinDelete()">⇦backspace</button>-->
                 </div>
             </div>
             <div class="select" id="unicodeImg">
-                <!-- 測試文字顯示效果 -->
-                <button class="test" onclick="FontChange(-1)">⇦</button>
+                <%
+                    foreach (var item in _1113_t2.index.Text2Speach.GetBlock(1).GetButtons())
+                    {
+                %>
+                <button><%=item.GetText() %></button>
+                <%
+                    }
+                %>
+
+
+                <!--<button class="test" onclick="FontChange(-1)">⇦</button>
                 <div id="textShow"></div>
-                <!-- 在這放文字 -->
-                <button class="test" onclick="FontChange(1)">⇨</button>
+                <button class="test" onclick="FontChange(1)">⇨</button>-->
             </div>
         </div>
 
@@ -49,16 +66,17 @@
             <div class="Pinyin">
 
                 <div class="Show" id="into1" style="display: flex;">
-                    <button id="ㄅ" onclick="PinyinClick()">ㄅ</button>
-                    <button id="ㄆ" onclick="PinyinClick()">ㄆ</button>
-                    <button id="ㄇ" onclick="PinyinClick()">ㄇ</button>
-                    <button id="ㄈ" onclick="PinyinClick()">ㄈ</button>
-                    <button id="ㄉ" onclick="PinyinClick()">ㄉ</button>
-                    <button id="ㄊ" onclick="PinyinClick()">ㄊ</button>
-                    <button id="ㄋ" onclick="PinyinClick()">ㄋ</button>
+                    <%
+                        foreach (var item in _1113_t2.index.Text2Speach.GetBlock(2).GetButtons())
+                        {
+                    %>
+                    <button><%=item.GetText() %></button>
+                    <%
+                        }
+                    %>
                 </div>
 
-                <div class="Show" id="into2" style="display: none;">
+                <!--<div class="Show" id="into2" style="display: none;">
                     <button id="ㄌ" onclick="PinyinClick()">ㄌ</button>
                     <button id="ㄍ" onclick="PinyinClick()">ㄍ</button>
                     <button id="ㄎ" onclick="PinyinClick()">ㄎ</button>
@@ -108,10 +126,21 @@
                     <button id="ˇ" onclick="PinyinClick()">ˇ</button>
                     <button id="ˋ" onclick="PinyinClick()">ˋ</button>
                     <button id="˙" onclick="PinyinClick()">˙</button>
-                </div>
+                </div>-->
 
                 <div class="Group" id="change_pinyin">
-                    <button class="Change" id="change_pinyin1" onclick="PinyinChange(1)">
+                    <%
+                        foreach (var item in _1113_t2.index.Text2Speach.GetBlock(3).GetButtons())
+                        {
+                    %>
+
+                    <button class="Change"><%=item.GetText() %></button>
+
+                    <%
+                        }
+                    %>
+
+                    <!--<button class="Change" id="change_pinyin1" onclick="PinyinChange(1)">
                         ㄅ~ㄋ<br />
                         聲母</button>
 
@@ -137,17 +166,16 @@
 
                     <button class="Change" id="change_pinyin7" onclick="PinyinChange(7)">
                         聲調<br />
-                    </button>
+                    </button>-->
 
                 </div>
             </div>
 
-            <!-- 控制聲音 -->
-            <div class="Voice">
+            <!--<div class="Voice">
                 <button class="Play" click="start" id="play">PLAY</button>
                 <button class="Cancel" click="cancel" id="cancel">CANCEL</button>
-                <!-- 我覺得可以改成到退鍵 -->
-            </div>
+            </div>-->
+
         </div>
 
     </div>
