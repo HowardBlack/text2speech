@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 namespace _1113_t2.Models
 {
@@ -18,8 +19,6 @@ namespace _1113_t2.Models
         DB DB { get; set; } //資料庫
 
         List<string[]> Pinyins { get; set; } //注音資料
-
-        string[] Pinyins_x { get; set; }
 
         int PinyinPage { get; set; } //現在要顯示的注音類型
 
@@ -38,6 +37,7 @@ namespace _1113_t2.Models
             Pinyins = new List<string[]>()
             {
                 new string[]{ "ㄅ", "ㄆ", "ㄇ", "ㄈ", "ㄉ", "ㄊ", "ㄋ" },
+                new string[]{ "ㄌ", "ㄍ", "ㄎ", "ㄏ", "ㄐ", "ㄑ", "ㄒ" },
                 new string[]{ "ㄓ", "ㄔ", "ㄕ", "ㄖ", "ㄗ", "ㄘ", "ㄙ" },
                 new string[]{ "ㄧ", "ㄨ", "ㄩ", "", "", "", "" },
                 new string[]{ "ㄚ", "ㄛ", "ㄜ", "ㄝ", "ㄞ", "ㄟ", "ㄠ"},
@@ -143,21 +143,29 @@ namespace _1113_t2.Models
             SetWordPage(0);      //清除文字選字頁數
             Words.Clear(); ; //清除所有文字選字
 
+            //清除文字選字區塊為空
+            List<Button> previusButtons = GetBlock(1).GetButtons(); //取得選字區塊所有 buttonts 資料
+            for (int i = 1; i < previusButtons.Count - 1; i++)
+            {
+                previusButtons[i].SetText(""); //設定該button的文字為空
+                previusButtons[i].SetValue(""); //設定該button的值為空
+            }
         }
 
         public void WordChangePage(string page) //文字切換事件
         {
-            SetWordPage(int.Parse(page));
-
-            List<Button> previusButtons = GetBlock(1).GetButtons(); //取得所有文字的 buttons 資料
-            List<Dictionary<string, string>> currentWords = Words[WordPage]; //取得目前頁面的所有文字
-            for (int i = 1; i < previusButtons.Count - 1; i++)
-            {
-                //要轉碼
-                string word = currentWords[i]["unicode"]; //取得該文字資料
-
-                previusButtons[i].SetText(word); //設定該button的文字
-                previusButtons[i].SetValue(word); //設定該button的值
+            SetWordPage(GetWordPage() + int.Parse(page));
+            if (GetWordPage() >= 0 && GetWordPage() <= Words.Count) //判斷 WordPage 是否在範圍內
+            {            
+                List<Button> previousButtons = GetBlock(1).GetButtons(); //取得所有選取文字的 buttons 資料
+                List<Dictionary<string, string>> currentWords = Words[GetWordPage()]; //取得目前頁面的所有文字
+                for (int i = 1; i < previousButtons.Count - 1; i++)
+                {
+                    string word = currentWords[i]["unicode"]; //取得該文字資料
+                    word = Regex.Unescape($"\\u{word}"); // 轉碼
+                    previousButtons[i].SetText(word); //設定該button的文字
+                    previousButtons[i].SetValue(word); //設定該button的值
+                }
             }
 
             //GetBlock(1).SetButtons(new string[,] { }); //更新按鈕的資料
@@ -165,11 +173,35 @@ namespace _1113_t2.Models
 
         public void InsertPinyin(string str) //注音事件
         {
+            SetWordPage(0); //重新設定選取文字頁面為 0
+
             //把被點到的按鈕的text塞進要顯示的text裡
             SetPinyinText(GetPinyinText() + str);
 
             //多注音切割後分批call SearchWords()
             SearchWords(GetPinyinText()); //帶入全部注音
+
+            //重新設定選取文字的 buttons text & value
+            List<Button> previousButtons = GetBlock(1).GetButtons(); //取得所有選取文字的 buttons 資料
+            if (Words.Count > 0) //Words有資料
+            {
+                List<Dictionary<string, string>> currentWords = Words[GetWordPage()]; //取得目前頁面的所有文字
+                for (int i = 1; i < previousButtons.Count - 1; i++)
+                {
+                    string word = currentWords[i]["unicode"]; //取得該文字unicode資料
+                    word = Regex.Unescape($"\\u{word}"); //轉碼
+                    previousButtons[i].SetText(word); //設定該button的文字
+                    previousButtons[i].SetValue(word); //設定該button的值
+                }
+            }
+            else //Words沒有資料
+            {
+                for (int i = 1; i < previousButtons.Count - 1; i++)
+                {
+                    previousButtons[i].SetText(""); //設定該button的文字為空
+                    previousButtons[i].SetValue(""); //設定該button的值為空
+                }
+            }
         }
 
         public void PinyinChangePage(string page) //輸入注音切換事件
