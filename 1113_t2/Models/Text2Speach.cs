@@ -26,7 +26,7 @@ namespace _1113_t2.Models
 
         int WordPage { get; set; } //現在要顯示的文字頁數
 
-        public Text2Speach() : base(10)
+        public Text2Speach() : base(3)
         {
             WordText = "123"; //文字
 

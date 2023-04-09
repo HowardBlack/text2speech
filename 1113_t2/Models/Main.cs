@@ -24,8 +24,8 @@ namespace _1113_t2.Models
 
         public Main(int overWatchingTime)
         {
-            X = 0;
-            Y = 0;
+            X = 90;
+            Y = 520;
             WatchingTime = 0;
             OverWatchingTime = overWatchingTime;
             Blocks = new List<Block>();
@@ -48,6 +48,7 @@ namespace _1113_t2.Models
 
             foreach (var block in Blocks)
             {
+                bool flag = false;
                 if (block.CheckRange(Y)) 
                 {
                     foreach (var button in block.GetButtons())
@@ -55,10 +56,12 @@ namespace _1113_t2.Models
                         if (button.CheckRange(X)) 
                         {
                             ButtonSeen = button;
+                            flag = true;
                             break;
                         }
                     }
                 }
+                if (flag) break;
             }
 
             //如果視線不再按鈕上 或 看的不是同一個按鈕 注視時間重置
@@ -96,7 +99,7 @@ namespace _1113_t2.Models
         {
             WatchingTime++; //累加時間
 
-            if (WatchingTime > OverWatchingTime) //超過時間則
+            if (WatchingTime >= OverWatchingTime) //超過時間則
             {
                 ResetWatchingTime(); //重置注視時間
                 return true;
@@ -114,7 +117,7 @@ namespace _1113_t2.Models
                 using (var lightlyFilteredGazeDataStream = eyeXHost.CreateGazePointDataStream(GazePointDataMode.LightlyFiltered))
                 {
                     // Start the EyeX host.
-                    //eyeXHost.Start();
+                    eyeXHost.Start();
                     // Write the data to the console.
                     lightlyFilteredGazeDataStream.Next += (s, e) =>
                     {
