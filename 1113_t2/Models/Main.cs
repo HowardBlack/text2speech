@@ -24,8 +24,8 @@ namespace _1113_t2.Models
 
         public Main(int overWatchingTime)
         {
-            X = 90;
-            Y = 520;
+            X = 0;
+            Y = 0;
             WatchingTime = 0;
             OverWatchingTime = overWatchingTime;
             Blocks = new List<Block>();
@@ -42,13 +42,16 @@ namespace _1113_t2.Models
             //先判斷視線是否有在該區塊上
             //後判斷視線是否在該區塊裡的按鈕上
             //後得到該按鈕
-            var ButtonTemp = ButtonSeen; //暫存上一個看到的按鈕
+            Button ButtonTemp = null; //暫存上一個看到的按鈕
+            if (ButtonSeen != null)
+            {
+                ButtonTemp = ButtonSeen.GetButton();
+            }
 
             ButtonSeen = null; //重製按鈕
 
             foreach (var block in Blocks)
             {
-                bool flag = false;
                 if (block.CheckRange(Y)) 
                 {
                     foreach (var button in block.GetButtons())
@@ -56,12 +59,10 @@ namespace _1113_t2.Models
                         if (button.CheckRange(X)) 
                         {
                             ButtonSeen = button;
-                            flag = true;
                             break;
                         }
                     }
                 }
-                if (flag) break;
             }
 
             //如果視線不再按鈕上 或 看的不是同一個按鈕 注視時間重置
@@ -78,6 +79,7 @@ namespace _1113_t2.Models
 
             if (methodInfo != null)
             {
+                Console.WriteLine(ButtonSeen.GetText());
                 ParameterInfo[] parameters = methodInfo.GetParameters();
                 //判斷呼叫的function要不要代參數
                 if (parameters.Length == 0)

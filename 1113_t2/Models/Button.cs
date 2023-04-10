@@ -54,5 +54,10 @@ namespace _1113_t2.Models
 
             return $"{Event}({Value})";
         }
+
+        public Button GetButton()
+        {
+            return this;
+        }
     }
 }
