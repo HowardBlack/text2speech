@@ -30,34 +30,21 @@
                 <!-- 有必要嗎 沒有的話就刪掉 -->
                 <br />
                 <div style="display: flex; justify-content: center;">
-                    <textarea id="userInput" disabled="disabled"><%= _1113_t2.index.Text2Speach.GetWordText() %></textarea>
-                    <textarea id="choiceText" disabled="disabled"><%= _1113_t2.index.Text2Speach.GetPinyinText() %></textarea>
-                    <%
-                        foreach (var item in _1113_t2.index.Text2Speach.GetBlock(0).GetButtons())
-                        {
-                    %>
-                    <button><%=item.GetText() %></button>
-                    <%
-                        }
-                    %>
+                    <textarea id="userInput" disabled="disabled"></textarea>
+                    <textarea id="choiceText" disabled="disabled"></textarea>
 
-                    <!--<button class="test" id="pinyinDelete" onclick="PinyinDelete()">⇦backspace</button>-->
+                    <button class="test" id="pinyinDelete" onclick="PinyinDelete()">⇦backspace</button>
                 </div>
             </div>
             <div class="select" id="unicodeImg">
-                <%
-                    foreach (var item in _1113_t2.index.Text2Speach.GetBlock(1).GetButtons())
-                    {
-                %>
-                <button><%=item.GetText() %></button>
-                <%
-                    }
-                %>
-
-
-                <!--<button class="test" onclick="FontChange(-1)">⇦</button>
-                <div id="textShow"></div>
-                <button class="test" onclick="FontChange(1)">⇨</button>-->
+                <button onclick="FontChange(-1)">⇦</button>
+                <button id="Word0" onclick=""></button>
+                <button id="Word1" onclick=""></button>
+                <button id="Word2" onclick=""></button>
+                <button id="Word3" onclick=""></button>
+                <button id="Word4" onclick=""></button>
+                <button id="Word5" onclick=""></button>                
+                <button onclick="FontChange(1)">⇨</button>
             </div>
         </div>
 
@@ -66,81 +53,17 @@
             <div class="Pinyin">
 
                 <div class="Show" id="into1" style="display: flex;">
-                    <%
-                        foreach (var item in _1113_t2.index.Text2Speach.GetBlock(2).GetButtons())
-                        {
-                    %>
-                    <button><%=item.GetText() %></button>
-                    <%
-                        }
-                    %>
-                </div>
-
-                <!--<div class="Show" id="into2" style="display: none;">
-                    <button id="ㄌ" onclick="PinyinClick()">ㄌ</button>
-                    <button id="ㄍ" onclick="PinyinClick()">ㄍ</button>
-                    <button id="ㄎ" onclick="PinyinClick()">ㄎ</button>
-                    <button id="ㄏ" onclick="PinyinClick()">ㄏ</button>
-                    <button id="ㄐ" onclick="PinyinClick()">ㄐ</button>
-                    <button id="ㄑ" onclick="PinyinClick()">ㄑ</button>
-                    <button id="ㄒ" onclick="PinyinClick()">ㄒ</button>
-                </div>
-
-                <div class="Show" id="into3" style="display: none;">
-                    <button id="ㄓ" onclick="PinyinClick()">ㄓ</button>
-                    <button id="ㄔ" onclick="PinyinClick()">ㄔ</button>
-                    <button id="ㄕ" onclick="PinyinClick()">ㄕ</button>
-                    <button id="ㄖ" onclick="PinyinClick()">ㄖ</button>
-                    <button id="ㄗ" onclick="PinyinClick()">ㄗ</button>
-                    <button id="ㄘ" onclick="PinyinClick()">ㄘ</button>
-                    <button id="ㄙ" onclick="PinyinClick()">ㄙ</button>
-                </div>
-
-                <div class="Show" id="into4" style="display: none;">
-                    <button id="ㄧ" onclick="PinyinClick()">ㄧ</button>
-                    <button id="ㄨ" onclick="PinyinClick()">ㄨ</button>
-                    <button id="ㄩ" onclick="PinyinClick()">ㄩ</button>
-                </div>
-
-                <div class="Show" id="into5" style="display: none;">
-                    <button id="ㄚ" onclick="PinyinClick()">ㄚ</button>
-                    <button id="ㄛ" onclick="PinyinClick()">ㄛ</button>
-                    <button id="ㄜ" onclick="PinyinClick()">ㄜ</button>
-                    <button id="ㄝ" onclick="PinyinClick()">ㄝ</button>
-                    <button id="ㄞ" onclick="PinyinClick()">ㄞ</button>
-                    <button id="ㄟ" onclick="PinyinClick()">ㄟ</button>
-                    <button id="ㄠ" onclick="PinyinClick()">ㄠ</button>
-                </div>
-
-                <div class="Show" id="into6" style="display: none;">
-                    <button id="ㄡ" onclick="PinyinClick()">ㄡ</button>
-                    <button id="ㄢ" onclick="PinyinClick()">ㄢ</button>
-                    <button id="ㄣ" onclick="PinyinClick()">ㄣ</button>
-                    <button id="ㄤ" onclick="PinyinClick()">ㄤ</button>
-                    <button id="ㄥ" onclick="PinyinClick()">ㄥ</button>
-                    <button id="ㄦ" onclick="PinyinClick()">ㄦ</button>
-                </div>
-
-                <div class="Show" id="into7" style="display: none;">
-                    <button id="ˊ" onclick="PinyinClick()">ˊ</button>
-                    <button id="ˇ" onclick="PinyinClick()">ˇ</button>
-                    <button id="ˋ" onclick="PinyinClick()">ˋ</button>
-                    <button id="˙" onclick="PinyinClick()">˙</button>
-                </div>-->
+                    <button id="Pinyin0" onclick="PinyinClick()"></button>
+                    <button id="Pinyin1" onclick="PinyinClick()"></button>
+                    <button id="Pinyin2" onclick="PinyinClick()"></button>
+                    <button id="Pinyin3" onclick="PinyinClick()"></button>
+                    <button id="Pinyin4" onclick="PinyinClick()"></button>
+                    <button id="Pinyin5" onclick="PinyinClick()"></button>
+                    <button id="Pinyin6" onclick="PinyinClick()"></button>
+                </div>                
 
                 <div class="Group" id="change_pinyin">
-                    <%
-                        foreach (var item in _1113_t2.index.Text2Speach.GetBlock(3).GetButtons())
-                        {
-                    %>
-
-                    <button class="Change"><%=item.GetText() %></button>
-
-                    <%
-                        }
-                    %>
-
-                    <!--<button class="Change" id="change_pinyin1" onclick="PinyinChange(1)">
+                    <button class="Change" id="change_pinyin1" onclick="PinyinChange(1)">
                         ㄅ~ㄋ<br />
                         聲母</button>
 
@@ -166,15 +89,15 @@
 
                     <button class="Change" id="change_pinyin7" onclick="PinyinChange(7)">
                         聲調<br />
-                    </button>-->
+                    </button>
 
                 </div>
             </div>
 
-            <!--<div class="Voice">
+            <div class="Voice">
                 <button class="Play" click="start" id="play">PLAY</button>
                 <button class="Cancel" click="cancel" id="cancel">CANCEL</button>
-            </div>-->
+            </div>
 
         </div>
 

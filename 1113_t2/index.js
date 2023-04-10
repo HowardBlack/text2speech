@@ -1,6 +1,12 @@
-﻿var api_url = 'api/Text2Speache';
+﻿
+function test(blockName, item) {
 
+}
+
+/*
+var api_url = 'api/Text2Speache';
 // 設定 currentPage 為當前頁面 及 countPage 為頁面總數
+
 let currentPage, countPage;
 
 function testapi() {
@@ -152,3 +158,4 @@ function close(x) {  //清除按鈕
 function test() {
     console.log("test有效");
 }
+*/

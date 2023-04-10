@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.UI;
 using Tobii.EyeX.Framework;
 
+using System.Text.Json;
+
 namespace _1113_t2.Models
 {
     public class Main : Page
@@ -133,6 +135,15 @@ namespace _1113_t2.Models
         }
 
         public void ResetWatchingTime() { WatchingTime = 0; }
+
+        public void UpdaePage(string funcName, string objectID, string[] objectText)
+        {
+            // 解析 objectText => json
+            string json = JsonSerializer.Serialize(objectText);
+            string fun = funcName + $"({objectID}, {json})";
+
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), fun, fun, true);
+        }
 
     }
 }
