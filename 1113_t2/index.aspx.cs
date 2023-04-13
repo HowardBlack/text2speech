@@ -1,4 +1,5 @@
 ﻿using _1113_t2.Models;
+using Antlr.Runtime.Misc;
 using System;
 using System.Threading;
 using System.Web.UI;
@@ -13,7 +14,7 @@ namespace _1113_t2
         protected void Page_Load(object sender, EventArgs e)
         {
             //arduino = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
-
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), "test()", "test()", true);
             if (!Page.IsPostBack)
             {
                 tt = new Thread(new ThreadStart(Text2Speach.MyEye));
@@ -23,19 +24,30 @@ namespace _1113_t2
             }
         }
 
+        public void Update(string fun) 
+        {
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), fun, fun, true);
+        }
+
         protected void Timer1_Tick(object sender, EventArgs e)
         {
+            
+
             //判斷是否是在看按鈕
             if (Text2Speach.ButtonIsSeen()) 
             {
-                if (Text2Speach.CheckClick()) 
+                Text2Speach.Click();
+
+                Update(Text2Speach.GetUpdate("test", "pinyin", Text2Speach.GetBlock(2).GetButtonsValue()));
+
+                /*if (Text2Speach.CheckClick()) 
                 {
                     Text2Speach.Click();
                 }
                 else 
                 {
                     Text2Speach.Hover();
-                }
+                }*/
             }
             else 
             {

@@ -248,12 +248,8 @@
     <Compile Include="Models\Block.cs" />
     <Compile Include="Models\Button.cs" />
     <Compile Include="Models\DB.cs" />
-    <Compile Include="Models\Main.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Models\Text2Speach.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Models\Main.cs" />
+    <Compile Include="Models\Text2Speach.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="se.aspx.cs">
       <DependentUpon>se.aspx</DependentUpon>

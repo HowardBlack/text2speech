@@ -40,7 +40,7 @@ namespace _1113_t2.Models
             }
         }
 
-        void ClearButtons() { Buttons.Clear(); } 
+        void ClearButtons() { Buttons.Clear(); }
 
         public bool CheckRange(double Y)//判斷現在有沒有被看到
         {
@@ -61,5 +61,18 @@ namespace _1113_t2.Models
             return "";
         }
 
+        public string[] GetButtonsValue()
+        {
+            List<string> buttonValues = new List<string> { };
+            List<Button> currentButtons = GetButtons();
+
+            foreach (Button item in currentButtons)
+            {
+                buttonValues.Add(item.GetText());
+            }
+
+            return buttonValues.ToArray();
+
+        }
     }
 }

@@ -12,7 +12,7 @@ using System.Text.Json;
 
 namespace _1113_t2.Models
 {
-    public class Main : Page
+    public class Main
     {
         double X { get; set; }
         double Y { get; set; }
@@ -26,8 +26,8 @@ namespace _1113_t2.Models
 
         public Main(int overWatchingTime)
         {
-            X = 0;
-            Y = 0;
+            X = 90;
+            Y = 520;
             WatchingTime = 0;
             OverWatchingTime = overWatchingTime;
             Blocks = new List<Block>();
@@ -114,7 +114,7 @@ namespace _1113_t2.Models
 
         public void MyEye() 
         {
-            using (var eyeXHost = new EyeXHost())
+            /*using (var eyeXHost = new EyeXHost())
             {
                 // Create a data stream: lightly filtered gaze point data.
                 // Other choices of data streams include EyePositionDataStream and FixationDataStream.
@@ -131,19 +131,19 @@ namespace _1113_t2.Models
 
                     Console.In.Read();
                 }
-            }
+            }*/
         }
 
         public void ResetWatchingTime() { WatchingTime = 0; }
 
-        public void UpdaePage(string funcName, string objectID, string[] objectText)
+        public string GetUpdate(string funcName, string objectID, string[] objectText)
         {
             // 解析 objectText => json
             string json = JsonSerializer.Serialize(objectText);
-            string fun = funcName + $"({objectID}, {json})";
-
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), fun, fun, true);
+            string fun = funcName + $"('{objectID}', '{json}')";
+            return fun;
         }
+
 
     }
 }

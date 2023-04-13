@@ -1,8 +1,12 @@
 ﻿
 function test(blockName, item) {
-
+    // for or foreach 跑 item 總數
+    if (item != undefined)
+    {
+        let itemData = JSON.parse(item);
+        console.log(itemData);
+    }
 }
-
 /*
 var api_url = 'api/Text2Speache';
 // 設定 currentPage 為當前頁面 及 countPage 為頁面總數
