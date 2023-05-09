@@ -69,7 +69,7 @@ namespace _1113_t2.Models
 
         public string Update(string from, string set, string where) //更新資料
         {
-            string sql = "UPDATE " + from + set + Where(where);
+            string sql = "UPDATE " + from + " SET " + set + Where(where);
             return sql;
         }
 

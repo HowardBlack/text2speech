@@ -30,8 +30,8 @@
                 <!-- 有必要嗎 沒有的話就刪掉 -->
                 <br />
                 <div style="display: flex; justify-content: center;">
-                    <textarea id="userInput" disabled="disabled"></textarea>
-                    <textarea id="choiceText" disabled="disabled"></textarea>
+                    <textarea id="userInput0" disabled="disabled"></textarea>
+                    <textarea id="choiceText0" disabled="disabled"></textarea>
 
                     <button class="test" id="pinyinDelete" onclick="PinyinDelete()">⇦backspace</button>
                 </div>
@@ -53,14 +53,14 @@
             <div class="Pinyin">
 
                 <div class="Show" id="into1" style="display: flex;">
-                    <button id="Pinyin0" onclick="PinyinClick()"></button>
-                    <button id="Pinyin1" onclick="PinyinClick()"></button>
-                    <button id="Pinyin2" onclick="PinyinClick()"></button>
-                    <button id="Pinyin3" onclick="PinyinClick()"></button>
-                    <button id="Pinyin4" onclick="PinyinClick()"></button>
-                    <button id="Pinyin5" onclick="PinyinClick()"></button>
-                    <button id="Pinyin6" onclick="PinyinClick()"></button>
-                </div>                
+                    <button id="Pinyin0" onclick="PinyinClick()">ㄅ</button>
+                    <button id="Pinyin1" onclick="PinyinClick()">ㄆ</button>
+                    <button id="Pinyin2" onclick="PinyinClick()">ㄇ</button>
+                    <button id="Pinyin3" onclick="PinyinClick()">ㄈ</button>
+                    <button id="Pinyin4" onclick="PinyinClick()">ㄉ</button>
+                    <button id="Pinyin5" onclick="PinyinClick()">ㄊ</button>
+                    <button id="Pinyin6" onclick="PinyinClick()">ㄋ</button>
+                </div>
 
                 <div class="Group" id="change_pinyin">
                     <button class="Change" id="change_pinyin1" onclick="PinyinChange(1)">

@@ -1,10 +1,12 @@
 ﻿
-function test(blockName, item) {
+function UpdatePageArea(blockName, item) {
     // for or foreach 跑 item 總數
     if (item != undefined)
     {
         let itemData = JSON.parse(item);
-        console.log(itemData);
+        itemData.forEach((item, index) => {
+            $(`#${blockName}${index}`).text(item);
+        })
     }
 }
 /*

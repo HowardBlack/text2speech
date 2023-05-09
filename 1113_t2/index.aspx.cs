@@ -14,7 +14,6 @@ namespace _1113_t2
         protected void Page_Load(object sender, EventArgs e)
         {
             //arduino = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), "test()", "test()", true);
             if (!Page.IsPostBack)
             {
                 tt = new Thread(new ThreadStart(Text2Speach.MyEye));
@@ -30,24 +29,30 @@ namespace _1113_t2
         }
 
         protected void Timer1_Tick(object sender, EventArgs e)
-        {
-            
-
+        {            
             //判斷是否是在看按鈕
             if (Text2Speach.ButtonIsSeen()) 
             {
-                Text2Speach.Click();
-
-                Update(Text2Speach.GetUpdate("test", "pinyin", Text2Speach.GetBlock(2).GetButtonsValue()));
-
-                /*if (Text2Speach.CheckClick()) 
+                if (Text2Speach.CheckClick()) 
                 {
                     Text2Speach.Click();
+                    /*
+                        Pinyin, 3 parameter 應是變化項目
+                            -> userInput0 注音 -> Text2Speech.GetPinyinText().split()
+                            -> choiceText0 文字 -> Text2Speech.GetWordText().split()
+                            -> Word 文字變換 -> Text2Speech.GetBlock(1).GetButtonValue()
+                            -> Pinyin 注音變換 -> Text2Speech.GetBlock(2).GetButtonValue()
+                     */
+
+                    //Update(Text2Speach.GetUpdate("UpdatePageArea", "Pinyin", Text2Speach.GetBlock(2).GetButtonsValue()));
+                    //判斷類型是否等於 string[]，可解決需要帶入string[]參數類型錯誤問題
+                    //callback method 無法正常使用
+                    Update(Text2Speach.GetUpdateFunName());
                 }
-                else 
+                else
                 {
                     Text2Speach.Hover();
-                }*/
+                }
             }
             else 
             {
