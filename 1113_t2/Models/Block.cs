@@ -29,7 +29,6 @@ namespace _1113_t2.Models
         public void SetButtons(string[,] Data) //在執行換頁類型的功能時刷新現在區塊裡有的按鈕
         {
             ClearButtons();
-            Debug.WriteLine(Data);
             for (int row = 0; row < Data.GetLength(0); row++)
             {
                 string Text = Data[row, 0].ToString();
@@ -61,7 +60,7 @@ namespace _1113_t2.Models
             return "";
         }
 
-        public string[] GetButtonsValue()
+        public string[] GetButtonsValue() //凝視三秒後，取得buttons最新資料
         {
             List<string> buttonValues = new List<string> { };
             List<Button> currentButtons = GetButtons();

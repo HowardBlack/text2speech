@@ -13,9 +13,12 @@ namespace _1113_t2.Models
 {
     public class Text2Speach : Main //注音鍵盤頁面的模型
     {
+        
         string WordText { get; set; } //要顯示的文字
-        string PinyinText { get; set; } //要顯示的注音文字
+        string PinyinText { get; set; } //要顯示的注音文字        
 
+        List<string> UpdateFunName { get; set; }
+        
         DB DB { get; set; } //資料庫
 
         List<string[]> Pinyins { get; set; } //注音資料
@@ -29,10 +32,12 @@ namespace _1113_t2.Models
         public Text2Speach() : base(3)
         {
             WordText = "123"; //文字
-
+            
             PinyinText = ""; //注音
 
             DB = new DB("Text2Speache");  //帶的是資料庫名稱
+
+            UpdateFunName = new List<string>();
 
             Pinyins = new List<string[]>()
             {
@@ -114,6 +119,9 @@ namespace _1113_t2.Models
 
         public void SetWordPage(int page) { WordPage = page; }
 
+        public List<string> GetUpdateFunName() { return UpdateFunName; }
+
+        public void ClearUpdateFunName() { UpdateFunName.Clear(); }
 
         //按鈕事件
         public void Backspace() //到退鍵的事件
@@ -124,14 +132,16 @@ namespace _1113_t2.Models
                 3. 重新設定文字至該區塊
             */
             if (string.IsNullOrEmpty(GetPinyinText())) // 判斷注音區塊是否空白
-            {
+            {                
                 string NewPinyinText = GetPinyinText().Remove(GetPinyinText().Length - 1, 1); // 刪除注音區塊最後一個字
                 SetPinyinText(NewPinyinText); // 重新設定注音區塊文字
+                UpdateFunName = GetUpdate("UpdatePageArea", "userInput", GetPinyinText().Split());
             }
             else
             {
                 string NewText = GetWordText().Remove(GetWordText().Length - 1, 1); // 刪除選取文字區塊最後一個字
                 SetWordText(NewText); // 重新設定選取文字區塊文字
+                UpdateFunName = GetUpdate("UpdatePageArea", "choiceText", GetWordText().Split());
             }
         }
 
@@ -150,6 +160,9 @@ namespace _1113_t2.Models
                 previusButtons[i].SetText(""); //設定該button的文字為空
                 previusButtons[i].SetValue(""); //設定該button的值為空
             }
+            
+            UpdateFunName.Add(GetUpdate("UpdatePageArea", "userInput", GetWordText().Split()));
+            UpdateFunName.Add(GetUpdate("UpdatePageArea", "Word", GetBlock(1).GetButtonsValue()));
         }
 
         public void WordChangePage(string page) //文字切換事件
@@ -167,7 +180,7 @@ namespace _1113_t2.Models
                     previousButtons[i].SetValue(word); //設定該button的值
                 }
             }
-
+            UpdateFunName.Add(GetUpdate("UpdatePageArea", "Word", GetBlock(1).GetButtonsValue()));
             //GetBlock(1).SetButtons(new string[,] { }); //更新按鈕的資料
         }
 
@@ -202,6 +215,8 @@ namespace _1113_t2.Models
                     previousButtons[i].SetValue(""); //設定該button的值為空
                 }
             }
+
+            UpdateFunName.Add(GetUpdate("UpdatePageArea", "userInput", GetPinyinText().Split()));
         }
 
         public void PinyinChangePage(string page) //輸入注音切換事件
@@ -215,6 +230,7 @@ namespace _1113_t2.Models
                 previusButtons[i].SetText(textValue); //設定該button的文字
                 previusButtons[i].SetValue(textValue); //設定該button的值
             }
+            UpdateFunName = GetUpdate("UpdatePageArea", "Pinyin", GetBlock(2).GetButtonsValue());
         }
 
         public void PlayVoice() { } //播放聲音
@@ -250,8 +266,11 @@ namespace _1113_t2.Models
         //帶文字的ID或是unicode碼 
         void AddUsecount(string str)//增加文字使用次數 先不要管這個
         {
-            DB.Query(
-                DB.Update("Words", "Usecount += 1", $"unicode = {str}"));
+            if (!string.IsNullOrEmpty(str))
+                DB.Query(
+                    DB.Update("Words", "Usecount += 1", $"unicode = {str}"));
         }
+
+        
     }
 }

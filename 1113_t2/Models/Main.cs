@@ -19,15 +19,26 @@ namespace _1113_t2.Models
 
         int WatchingTime {  get; set; } //視線在按鈕上的時間
         int OverWatchingTime { get; set; } //視線在按鈕上過多久要做點擊事件的時間
+        
+        string CurrentBlock { get; set; }
 
+        string CurrentMethod { get; set; }
 
         List<Block> Blocks { get; set; } //頁面裡的區塊 用Y軸來分區塊
         Button ButtonSeen { get; set; } //被看到的按鈕
 
+        public void SetCurrentBlock(string value) { CurrentBlock = value; }
+
+        public string GetCurrentBlock() { return CurrentBlock; }
+
+        public void SetCurrentMethod(string value) { CurrentMethod = value; }
+
+        public string GetCurrentMethod() { return CurrentMethod; }
+
         public Main(int overWatchingTime)
         {
-            X = 90;
-            Y = 520;
+            X = 0;
+            Y = 0;
             WatchingTime = 0;
             OverWatchingTime = overWatchingTime;
             Blocks = new List<Block>();
@@ -36,8 +47,6 @@ namespace _1113_t2.Models
         public void AddBlock(Block block) { Blocks.Add(block); }
 
         public Block GetBlock(int index) { return Blocks[index]; }
-
-
 
         public bool ButtonIsSeen() //判斷視線是否在按鈕上 
         {
@@ -54,8 +63,9 @@ namespace _1113_t2.Models
 
             foreach (var block in Blocks)
             {
-                if (block.CheckRange(Y)) 
+                if (block.CheckRange(Y))
                 {
+                    //記錄現在看到哪個區域
                     foreach (var button in block.GetButtons())
                     {
                         if (button.CheckRange(X)) 
@@ -114,7 +124,7 @@ namespace _1113_t2.Models
 
         public void MyEye() 
         {
-            /*using (var eyeXHost = new EyeXHost())
+            using (var eyeXHost = new EyeXHost())
             {
                 // Create a data stream: lightly filtered gaze point data.
                 // Other choices of data streams include EyePositionDataStream and FixationDataStream.
@@ -131,7 +141,7 @@ namespace _1113_t2.Models
 
                     Console.In.Read();
                 }
-            }*/
+            }
         }
 
         public void ResetWatchingTime() { WatchingTime = 0; }
@@ -143,7 +153,6 @@ namespace _1113_t2.Models
             string fun = funcName + $"('{objectID}', '{json}')";
             return fun;
         }
-
 
     }
 }
