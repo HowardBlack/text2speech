@@ -48,11 +48,9 @@ namespace _1113_t2
                     //判斷類型是否等於 string[]，可解決需要帶入string[]參數類型錯誤問題
                     //callback method 無法正常使用
 
-                    foreach (var item in Text2Speach.GetUpdateFunName()) 
-                    {
-                        Update(item);
-                    }
-                    Text2Speach.ClearUpdateFunName();
+                /*if (Text2Speach.CheckClick()) 
+                {
+                    Text2Speach.Click();
                 }
                 else
                 {
