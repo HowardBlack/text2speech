@@ -30,8 +30,8 @@
                 <!-- 有必要嗎 沒有的話就刪掉 -->
                 <br />
                 <div style="display: flex; justify-content: center;">
-                    <textarea id="userInput0" disabled="disabled"></textarea>
-                    <textarea id="choiceText0" disabled="disabled"></textarea>
+                    <textarea id="PinyinInput0" disabled="disabled"></textarea>
+                    <textarea id="WordText0" disabled="disabled"></textarea>
 
                     <button class="test" id="pinyinDelete" onclick="PinyinDelete()">⇦backspace</button>
                 </div>

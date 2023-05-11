@@ -60,6 +60,7 @@ namespace _1113_t2.Models
             return "";
         }
 
+        // 文字資料不需要取得全部資料，只需要取得 1 - count-1        
         public string[] GetButtonsValue() //凝視三秒後，取得buttons最新資料
         {
             List<string> buttonValues = new List<string> { };

@@ -5,7 +5,7 @@ function UpdatePageArea(blockName, item) {
     {
         let itemData = JSON.parse(item);
         itemData.forEach((item, index) => {
-            $(`#${blockName}${index}`).text(item);
+            $(`#${blockName}${index}`).text(item);            
         })
     }
 }

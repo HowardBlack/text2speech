@@ -29,9 +29,9 @@ namespace _1113_t2.Models
 
         int WordPage { get; set; } //現在要顯示的文字頁數
 
-        public Text2Speach() : base(3)
+        public Text2Speach() : base(5)
         {
-            WordText = "123"; //文字
+            WordText = "ㄊㄊㄊㄊ"; //文字
             
             PinyinText = ""; //注音
 
@@ -57,24 +57,24 @@ namespace _1113_t2.Models
             WordPage = 0;
 
             //第一區塊 文字顯示倒退鑑區塊
-            AddBlock(new Block(1, new double[] { 32, 232 }, new string[,] {
+            AddBlock(new Block(1, new double[] { 37, 237 }, new string[,] {
                 {"⇦backspace", "Backspace", "", "1424,1624" } // backspace 按鈕
             }));
 
             //第二區塊 文字選取區塊
-            AddBlock(new Block(8, new double[] { 242, 442 }, new string[,] {
-                {"⇦", "WordChangePage", "-1", "117,317" }, //上一頁按鈕
-                {"", "InsertWord", "", "327,527" },
-                {"", "InsertWord", "", "537,737" },
-                {"", "InsertWord", "", "747,947" },
-                {"", "InsertWord", "", "957,1157" },
-                {"", "InsertWord", "", "1167,1367" },
-                {"", "InsertWord", "", "1377,15777" },
-                {"⇨", "WordChangePage", "1", "1587,1787" } //下一頁按鈕
+            AddBlock(new Block(8, new double[] { 257, 457 }, new string[,] {
+                {"⇦", "WordChangePage", "-1", "82,282" }, //上一頁按鈕
+                {"", "InsertWord", "", "302,502" },
+                {"", "InsertWord", "", "522,722" },
+                {"", "InsertWord", "", "742,942" },
+                {"", "InsertWord", "", "962,1162" },
+                {"", "InsertWord", "", "1182,1382" },
+                {"", "InsertWord", "", "1402,1602" },
+                {"⇨", "WordChangePage", "1", "1622,1822" } //下一頁按鈕
             }));
 
             //第三區塊 注音區塊 Value給Pinyins[0]裡的參數就可以了換頁時在更新裡面的按鈕
-            AddBlock(new Block(8, new double[] { 517, 717 }, new string[,] {
+            AddBlock(new Block(8, new double[] { 537, 737 }, new string[,] {
                 {"ㄅ", "InsertPinyin", "ㄅ", "82,282" }, //第一個按鈕
                 {"ㄆ", "InsertPinyin", "ㄆ", "302,502" }, //第二個按鈕
                 {"ㄇ", "InsertPinyin", "ㄇ", "522,722" }, //第三個按鈕
@@ -86,7 +86,7 @@ namespace _1113_t2.Models
             }));
 
             //第四區塊 注音切換區塊
-            AddBlock(new Block(8, new double[] { 737, 937 }, new string[,] {
+            AddBlock(new Block(8, new double[] { 757, 957 }, new string[,] {
                 {"ㄅ~ㄋ聲母", "PinyinChangePage", "0", "82,282" },    //第一個按鈕
                 {"ㄌ~ㄒ聲母", "PinyinChangePage", "1", "302,502" },   //第二個按鈕
                 {"ㄓ~ㄙ聲母", "PinyinChangePage", "2", "522,722" },   //第三個按鈕
@@ -119,29 +119,24 @@ namespace _1113_t2.Models
 
         public void SetWordPage(int page) { WordPage = page; }
 
-        public List<string> GetUpdateFunName() { return UpdateFunName; }
+        public List<string> GetUpdateFunName() { return UpdateFunName; }        
 
         public void ClearUpdateFunName() { UpdateFunName.Clear(); }
 
         //按鈕事件
         public void Backspace() //到退鍵的事件
         {
-            /*
-                1. 判斷是注音區塊還是選字區塊? 如果注音區塊有文字先刪除，否則刪選字區塊
-                2. 刪除該區塊最後一個字
-                3. 重新設定文字至該區塊
-            */
-            if (string.IsNullOrEmpty(GetPinyinText())) // 判斷注音區塊是否空白
-            {                
-                string NewPinyinText = GetPinyinText().Remove(GetPinyinText().Length - 1, 1); // 刪除注音區塊最後一個字
-                SetPinyinText(NewPinyinText); // 重新設定注音區塊文字
-                UpdateFunName = GetUpdate("UpdatePageArea", "userInput", GetPinyinText().Split());
+            if (!string.IsNullOrEmpty(GetPinyinText())) // 先判斷注音區塊為非空白
+            {
+                string NewPinyinText = GetPinyinText().Remove(GetPinyinText().Length - 1, 1); // 刪除選取文字區塊最後一個字
+                SetPinyinText(NewPinyinText); // 重新設定選取文字區塊文字
+                UpdateFunName.Add(GetUpdate("UpdatePageArea", "PinyinInput", GetPinyinText().Split()));
             }
-            else
+            else if (!string.IsNullOrEmpty(GetWordText())) //注音空白再判斷文字區為非空白
             {
                 string NewText = GetWordText().Remove(GetWordText().Length - 1, 1); // 刪除選取文字區塊最後一個字
                 SetWordText(NewText); // 重新設定選取文字區塊文字
-                UpdateFunName = GetUpdate("UpdatePageArea", "choiceText", GetWordText().Split());
+                UpdateFunName.Add(GetUpdate("UpdatePageArea", "WordText", GetWordText().Split()));
             }
         }
 
@@ -161,7 +156,7 @@ namespace _1113_t2.Models
                 previusButtons[i].SetValue(""); //設定該button的值為空
             }
             
-            UpdateFunName.Add(GetUpdate("UpdatePageArea", "userInput", GetWordText().Split()));
+            UpdateFunName.Add(GetUpdate("UpdatePageArea", "WordText", GetWordText().Split()));
             UpdateFunName.Add(GetUpdate("UpdatePageArea", "Word", GetBlock(1).GetButtonsValue()));
         }
 
@@ -169,7 +164,7 @@ namespace _1113_t2.Models
         {
             SetWordPage(GetWordPage() + int.Parse(page));
             if (GetWordPage() >= 0 && GetWordPage() <= Words.Count) //判斷 WordPage 是否在範圍內
-            {            
+            {
                 List<Button> previousButtons = GetBlock(1).GetButtons(); //取得所有選取文字的 buttons 資料
                 List<Dictionary<string, string>> currentWords = Words[GetWordPage()]; //取得目前頁面的所有文字
                 for (int i = 1; i < previousButtons.Count - 1; i++)
@@ -181,7 +176,6 @@ namespace _1113_t2.Models
                 }
             }
             UpdateFunName.Add(GetUpdate("UpdatePageArea", "Word", GetBlock(1).GetButtonsValue()));
-            //GetBlock(1).SetButtons(new string[,] { }); //更新按鈕的資料
         }
 
         public void InsertPinyin(string str) //注音事件
@@ -215,8 +209,8 @@ namespace _1113_t2.Models
                     previousButtons[i].SetValue(""); //設定該button的值為空
                 }
             }
-
-            UpdateFunName.Add(GetUpdate("UpdatePageArea", "userInput", GetPinyinText().Split()));
+            UpdateFunName.Add(GetUpdate("UpdatePageArea", "Word", GetBlock(1).GetButtonsValue()));
+            UpdateFunName.Add(GetUpdate("UpdatePageArea", "PinyinInput", GetPinyinText().Split()));
         }
 
         public void PinyinChangePage(string page) //輸入注音切換事件
@@ -230,7 +224,7 @@ namespace _1113_t2.Models
                 previusButtons[i].SetText(textValue); //設定該button的文字
                 previusButtons[i].SetValue(textValue); //設定該button的值
             }
-            UpdateFunName = GetUpdate("UpdatePageArea", "Pinyin", GetBlock(2).GetButtonsValue());
+            UpdateFunName.Add(GetUpdate("UpdatePageArea", "Pinyin", GetBlock(2).GetButtonsValue()));
         }
 
         public void PlayVoice() { } //播放聲音

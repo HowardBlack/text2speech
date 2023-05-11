@@ -23,44 +23,35 @@ namespace _1113_t2
             }
         }
 
-        public void Update(string fun) 
+        public void Update(string fun)
         {
             ScriptManager.RegisterClientScriptBlock(Page, GetType(), fun, fun, true);
         }
 
         protected void Timer1_Tick(object sender, EventArgs e)
-        {            
+        {
             //判斷是否是在看按鈕
-            if (Text2Speach.ButtonIsSeen()) 
+            if (Text2Speach.ButtonIsSeen())
             {
                 if (Text2Speach.CheckClick()) 
                 {
                     Text2Speach.Click();
-                    /*
-                        Pinyin, 3 parameter 應是變化項目
-                            -> userInput0 注音 -> Text2Speech.GetPinyinText().split()
-                            -> choiceText0 文字 -> Text2Speech.GetWordText().split()
-                            -> Word 文字變換 -> Text2Speech.GetBlock(1).GetButtonValue()
-                            -> Pinyin 注音變換 -> Text2Speech.GetBlock(2).GetButtonValue()
-                     */
-
-                    //Update(Text2Speach.GetUpdate("UpdatePageArea", "Pinyin", Text2Speach.GetBlock(2).GetButtonsValue()));
-                    //判斷類型是否等於 string[]，可解決需要帶入string[]參數類型錯誤問題
-                    //callback method 無法正常使用
-
-                /*if (Text2Speach.CheckClick()) 
-                {
-                    Text2Speach.Click();
+                    foreach (string FunName in Text2Speach.GetUpdateFunName())
+                    {
+                        Update(FunName); //更新各區塊內容
+                    }
                 }
                 else
                 {
                     Text2Speach.Hover();
                 }
             }
-            else 
+            else
             {
                 Text2Speach.ResetWatchingTime();
             }
+
+            Text2Speach.ClearUpdateFunName(); //清除 UpdateFunName 累積
 
             //ScriptManager.RegisterClientScriptBlock(Page, GetType(), "close()", "close()", true);   //觸發 JS close函數
         }
