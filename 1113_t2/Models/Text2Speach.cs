@@ -29,9 +29,9 @@ namespace _1113_t2.Models
 
         int WordPage { get; set; } //現在要顯示的文字頁數
 
-        public Text2Speach() : base(5)
+        public Text2Speach() : base(8)
         {
-            WordText = "ㄊㄊㄊㄊ"; //文字
+            WordText = "測試測試測試測試測試測試測試測試測試測試測試測試測試測試"; //文字
             
             PinyinText = ""; //注音
 
@@ -121,7 +121,7 @@ namespace _1113_t2.Models
 
         public List<string> GetUpdateFunName() { return UpdateFunName; }        
 
-        public void ClearUpdateFunName() { UpdateFunName.Clear(); }
+        public void ClearUpdateFunName() { UpdateFunName.Clear(); }        
 
         //按鈕事件
         public void Backspace() //到退鍵的事件
@@ -142,22 +142,26 @@ namespace _1113_t2.Models
 
         public void InsertWord(string str) //文字事件
         {
-            AddUsecount(str); //增加使用次數
-            SetWordText(GetWordText() + str); //設定文字
-            SetPinyinText(""); //清除注音
-            SetWordPage(0);      //清除文字選字頁數
-            Words.Clear(); ; //清除所有文字選字
-
-            //清除文字選字區塊為空
-            List<Button> previusButtons = GetBlock(1).GetButtons(); //取得選字區塊所有 buttonts 資料
-            for (int i = 1; i < previusButtons.Count - 1; i++)
+            if (!String.IsNullOrEmpty(str))
             {
-                previusButtons[i].SetText(""); //設定該button的文字為空
-                previusButtons[i].SetValue(""); //設定該button的值為空
+                AddUsecount(str); //增加使用次數
+                str = Regex.Unescape($"\\u{str}"); //轉碼
+                SetWordText(GetWordText() + str); //設定文字
+                SetPinyinText(""); //清除注音
+                SetWordPage(0);      //清除文字選字頁數
+                Words.Clear(); ; //清除所有文字選字
+
+                //清除文字選字區塊為空
+                List<Button> previusButtons = GetBlock(1).GetButtons(); //取得選字區塊所有 buttonts 資料
+                for (int i = 1; i < previusButtons.Count - 1; i++)
+                {
+                    previusButtons[i].SetText(""); //設定該button的文字為空
+                    previusButtons[i].SetValue(""); //設定該button的值為空
+                }
+                UpdateFunName.Add(GetUpdate("UpdatePageArea", "PinyinInput", GetPinyinText().Split()));
+                UpdateFunName.Add(GetUpdate("UpdatePageArea", "WordText", GetWordText().Split()));
+                UpdateFunName.Add(GetUpdate("UpdatePageArea", "Word", GetBlock(1).GetButtonsValue()));
             }
-            
-            UpdateFunName.Add(GetUpdate("UpdatePageArea", "WordText", GetWordText().Split()));
-            UpdateFunName.Add(GetUpdate("UpdatePageArea", "Word", GetBlock(1).GetButtonsValue()));
         }
 
         public void WordChangePage(string page) //文字切換事件
@@ -167,12 +171,12 @@ namespace _1113_t2.Models
             {
                 List<Button> previousButtons = GetBlock(1).GetButtons(); //取得所有選取文字的 buttons 資料
                 List<Dictionary<string, string>> currentWords = Words[GetWordPage()]; //取得目前頁面的所有文字
-                for (int i = 1; i < previousButtons.Count - 1; i++)
+                for (int i = 0; i < currentWords.Count; i++)
                 {
-                    string word = currentWords[i]["unicode"]; //取得該文字資料
-                    word = Regex.Unescape($"\\u{word}"); // 轉碼
-                    previousButtons[i].SetText(word); //設定該button的文字
-                    previousButtons[i].SetValue(word); //設定該button的值
+                    string word = currentWords[i]["unicode"]; //取得該文字unicode資料
+                    word = Regex.Unescape($"\\u{word}"); //轉碼
+                    previousButtons[i + 1].SetText(word); //設定該button的文字
+                    previousButtons[i + 1].SetValue(word); //設定該button的值
                 }
             }
             UpdateFunName.Add(GetUpdate("UpdatePageArea", "Word", GetBlock(1).GetButtonsValue()));
@@ -181,6 +185,7 @@ namespace _1113_t2.Models
         public void InsertPinyin(string str) //注音事件
         {
             SetWordPage(0); //重新設定選取文字頁面為 0
+            Words.Clear();   //清除所有文字
 
             //把被點到的按鈕的text塞進要顯示的text裡
             SetPinyinText(GetPinyinText() + str);
@@ -193,12 +198,11 @@ namespace _1113_t2.Models
             if (Words.Count > 0) //Words有資料
             {
                 List<Dictionary<string, string>> currentWords = Words[GetWordPage()]; //取得目前頁面的所有文字
-                for (int i = 1; i < previousButtons.Count - 1; i++)
+                for (int i = 0; i < currentWords.Count; i++)
                 {
-                    string word = currentWords[i]["unicode"]; //取得該文字unicode資料
-                    word = Regex.Unescape($"\\u{word}"); //轉碼
-                    previousButtons[i].SetText(word); //設定該button的文字
-                    previousButtons[i].SetValue(word); //設定該button的值
+                    string word = currentWords[i]["unicode"]; //取得該文字unicode資料                    
+                    previousButtons[i + 1].SetText(word); //設定該button的文字
+                    previousButtons[i + 1].SetValue(word); //設定該button的值
                 }
             }
             else //Words沒有資料
@@ -227,10 +231,15 @@ namespace _1113_t2.Models
             UpdateFunName.Add(GetUpdate("UpdatePageArea", "Pinyin", GetBlock(2).GetButtonsValue()));
         }
 
-        public void PlayVoice() { } //播放聲音
+        public void PlayVoice()  //播放聲音
+        {
+            UpdateFunName.Add($"Speak('{GetWordText()}')");
+        }
 
-        public void CloseVoice() { } //關閉聲音
-        //
+        public void CloseVoice() //關閉聲音
+        {
+            UpdateFunName.Add("Cancel()");
+        } 
 
         //帶注音
         void SearchWords(string str) //從資料庫找對應的字 先不要管這個
@@ -262,7 +271,7 @@ namespace _1113_t2.Models
         {
             if (!string.IsNullOrEmpty(str))
                 DB.Query(
-                    DB.Update("Words", "Usecount += 1", $"unicode = {str}"));
+                    DB.Update("Words", "Usecount += 1", $"unicode = '{str}'"));
         }
 
         

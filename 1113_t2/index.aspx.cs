@@ -39,6 +39,7 @@ namespace _1113_t2
                     foreach (string FunName in Text2Speach.GetUpdateFunName())
                     {
                         Update(FunName); //更新各區塊內容
+                        Text2Speach.ResetPosition(); // 重新設定 x, y 軸位置，以避免為注視時仍持續選取
                     }
                 }
                 else
@@ -50,7 +51,7 @@ namespace _1113_t2
             {
                 Text2Speach.ResetWatchingTime();
             }
-
+            
             Text2Speach.ClearUpdateFunName(); //清除 UpdateFunName 累積
 
             //ScriptManager.RegisterClientScriptBlock(Page, GetType(), "close()", "close()", true);   //觸發 JS close函數

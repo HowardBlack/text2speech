@@ -1,14 +1,27 @@
-﻿
-function UpdatePageArea(blockName, item) {
-    // for or foreach 跑 item 總數
-    if (item != undefined)
-    {
-        let itemData = JSON.parse(item);
-        itemData.forEach((item, index) => {
-            $(`#${blockName}${index}`).text(item);            
-        })
+﻿// 更新頁面
+function UpdatePageArea(blockName, item) {    
+    if (item != undefined) // 判斷 item 有資料
+    {        
+        let itemData = JSON.parse(item); // item 轉成 json object
+        if (blockName == 'Word')
+        {
+            for (let i = 1; i < itemData.length - 1; i++)
+            {
+                let unicode = itemData[i]; // unicode 文字碼
+                if (unicode !== "") // 判斷不等於空的
+                    unicode = String.fromCharCode(parseInt(unicode, 16)); // 將 unicode 轉成 16 進制
+                $(`#${blockName}${i - 1}`).text(unicode); // 顯示文字至 Word 元素中
+            }
+        }
+        else
+        {
+            itemData.forEach((item, index) => {
+                $(`#${blockName}${index}`).text(item);
+            })
+        }
     }
 }
+
 /*
 var api_url = 'api/Text2Speache';
 // 設定 currentPage 為當前頁面 及 countPage 為頁面總數

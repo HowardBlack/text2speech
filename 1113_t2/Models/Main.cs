@@ -35,6 +35,8 @@ namespace _1113_t2.Models
 
         public string GetCurrentMethod() { return CurrentMethod; }
 
+        public void ResetPosition() { X = 0; Y = 0; }
+
         public Main(int overWatchingTime)
         {
             X = 0;
@@ -138,7 +140,7 @@ namespace _1113_t2.Models
                         X = e.X;
                         Y = e.Y;
                     };
-
+                    
                     Console.In.Read();
                 }
             }
