@@ -9,8 +9,10 @@ function UpdatePageArea(blockName, item) {
             {
                 let unicode = itemData[i]; // unicode 文字碼
                 if (unicode !== "") // 判斷不等於空的
+                {
                     unicode = String.fromCharCode(parseInt(unicode, 16)); // 將 unicode 轉成 16 進制
-                $(`#${blockName}${i - 1}`).text(unicode); // 顯示文字至 Word 元素中
+                    $(`#${blockName}${i - 1}`).text(unicode); // 顯示文字至 Word 元素中
+                }
             }
         }
         else

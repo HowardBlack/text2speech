@@ -97,9 +97,11 @@ function Cancel() {
     synth.cancel();
 }
 
+/*
 $('#play').click(function () {
     Speak('測試，我是你好');
 })
 
 $('#cancel').click(() => Cancel());
 
+*/

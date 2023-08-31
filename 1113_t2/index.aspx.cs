@@ -1,5 +1,4 @@
 ﻿using _1113_t2.Models;
-using Antlr.Runtime.Misc;
 using System;
 using System.Threading;
 using System.Web.UI;
@@ -32,7 +31,7 @@ namespace _1113_t2
         {
             //判斷是否是在看按鈕
             if (Text2Speach.ButtonIsSeen())
-            {
+            {                
                 if (Text2Speach.CheckClick()) 
                 {
                     Text2Speach.Click();
@@ -43,7 +42,7 @@ namespace _1113_t2
                     }
                 }
                 else
-                {
+                {                   
                     Text2Speach.Hover();
                 }
             }

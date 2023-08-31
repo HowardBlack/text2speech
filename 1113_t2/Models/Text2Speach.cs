@@ -26,12 +26,13 @@ namespace _1113_t2.Models
         int PinyinPage { get; set; } //現在要顯示的注音類型
 
         List<List<Dictionary<string, string>>> Words { get; set; } //文字資料
+        //private List<List<Dictionary<string, string>>> Words = new List<List<Dictionary<string, string>>>(); //文字資料        
 
         int WordPage { get; set; } //現在要顯示的文字頁數
 
         public Text2Speach() : base(8)
         {
-            WordText = "測試測試測試測試測試測試測試測試測試測試測試測試測試測試"; //文字
+            WordText = ""; //文字
             
             PinyinText = ""; //注音
 
@@ -56,7 +57,7 @@ namespace _1113_t2.Models
 
             WordPage = 0;
 
-            //第一區塊 文字顯示倒退鑑區塊
+            //第一區塊 文字顯示倒退鍵區塊
             AddBlock(new Block(1, new double[] { 37, 237 }, new string[,] {
                 {"⇦backspace", "Backspace", "", "1424,1624" } // backspace 按鈕
             }));
@@ -169,14 +170,21 @@ namespace _1113_t2.Models
             SetWordPage(GetWordPage() + int.Parse(page));
             if (GetWordPage() >= 0 && GetWordPage() <= Words.Count) //判斷 WordPage 是否在範圍內
             {
-                List<Button> previousButtons = GetBlock(1).GetButtons(); //取得所有選取文字的 buttons 資料
+                List<Button> previousButtons = GetBlock(1).GetButtons(); //取得所有選取文字的 buttons 資料                
                 List<Dictionary<string, string>> currentWords = Words[GetWordPage()]; //取得目前頁面的所有文字
-                for (int i = 0; i < currentWords.Count; i++)
+                for (int i = 0; i < previousButtons.Count - 2; i++)
                 {
-                    string word = currentWords[i]["unicode"]; //取得該文字unicode資料
-                    word = Regex.Unescape($"\\u{word}"); //轉碼
-                    previousButtons[i + 1].SetText(word); //設定該button的文字
-                    previousButtons[i + 1].SetValue(word); //設定該button的值
+                    try
+                    {
+                        string word = currentWords[i]["unicode"]; //取得該文字unicode資料
+                        previousButtons[i + 1].SetText(word); //設定該button的文字
+                        previousButtons[i + 1].SetValue(word); //設定該button的值
+                    }
+                    catch
+                    {
+                        previousButtons[i + 1].SetText(""); //設定該button的文字
+                        previousButtons[i + 1].SetValue(""); //設定該button的值
+                    }
                 }
             }
             UpdateFunName.Add(GetUpdate("UpdatePageArea", "Word", GetBlock(1).GetButtonsValue()));
@@ -192,7 +200,7 @@ namespace _1113_t2.Models
 
             //多注音切割後分批call SearchWords()
             SearchWords(GetPinyinText()); //帶入全部注音
-
+            
             //重新設定選取文字的 buttons text & value
             List<Button> previousButtons = GetBlock(1).GetButtons(); //取得所有選取文字的 buttons 資料
             if (Words.Count > 0) //Words有資料
@@ -200,7 +208,7 @@ namespace _1113_t2.Models
                 List<Dictionary<string, string>> currentWords = Words[GetWordPage()]; //取得目前頁面的所有文字
                 for (int i = 0; i < currentWords.Count; i++)
                 {
-                    string word = currentWords[i]["unicode"]; //取得該文字unicode資料                    
+                    string word = currentWords[i]["unicode"]; //取得該文字unicode資料
                     previousButtons[i + 1].SetText(word); //設定該button的文字
                     previousButtons[i + 1].SetValue(word); //設定該button的值
                 }
@@ -242,7 +250,7 @@ namespace _1113_t2.Models
         } 
 
         //帶注音
-        void SearchWords(string str) //從資料庫找對應的字 先不要管這個
+        void SearchWords(string str) //從資料庫找對應的字
         {
             List<Dictionary<string, string>> getWords()
             {
@@ -250,30 +258,32 @@ namespace _1113_t2.Models
                         DB.Select("*", "Words", $"pinyinId IN ({DB.Select("id", "Pinyins", $"Text = N'{str}'")}) Order by Usecount DESC"));
             }
 
-            List<Dictionary<string, string>> temps = new List<Dictionary<string, string>>();
+            List<Dictionary<string, string>> temps = new List<Dictionary<string, string>>();            
 
             foreach (Dictionary<string, string> item in getWords())
             {
                 temps.Add(item);
 
                 if (temps.Count == 6)
-                {
-                    Words.Add(temps);
+                {                    
+                    List<Dictionary<string, string>> copyTemps = new List<Dictionary<string, string>>(temps); // 解決記憶體位置相同，導致 temps 清除時，Words 新增的資料也跟著清除
+                    Words.Add(copyTemps);
                     temps.Clear();
                 }
             }
-
             if (temps.Count > 0) Words.Add(temps);
+            
         }
 
         //帶文字的ID或是unicode碼 
-        void AddUsecount(string str)//增加文字使用次數 先不要管這個
+        void AddUsecount(string str)//增加文字使用次數
         {
+            string pinyinId = DB.Select("pinyinId", "Words", $"pinyinId IN ({DB.Select("id", "Pinyins", $"Text = N'{GetPinyinText()}'")}) and unicode = '{str}'");
             if (!string.IsNullOrEmpty(str))
                 DB.Query(
-                    DB.Update("Words", "Usecount += 1", $"unicode = '{str}'"));
+                    DB.Update("Words", "Usecount += 1", $"unicode = '{str}' and pinyinId = ({pinyinId})"));
         }
 
-        
+
     }
 }

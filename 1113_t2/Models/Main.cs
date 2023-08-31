@@ -109,7 +109,12 @@ namespace _1113_t2.Models
             }
         }
 
-        public void Hover() { } //滑過的事件
+        public void Hover() //滑過的事件
+        {
+            // who see
+            // see background-color:red, no see background-color: origin
+            
+        }
 
         public bool CheckClick() //確認是否執行點擊事件
         {

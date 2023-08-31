@@ -37,14 +37,14 @@
                 </div>
             </div>
             <div class="select" id="unicodeImg">
-                <button onclick="FontChange(-1)">⇦</button>
+                <button>⇦</button>
                 <button id="Word0" onclick=""></button>
                 <button id="Word1" onclick=""></button>
                 <button id="Word2" onclick=""></button>
                 <button id="Word3" onclick=""></button>
                 <button id="Word4" onclick=""></button>
                 <button id="Word5" onclick=""></button>                
-                <button onclick="FontChange(1)">⇨</button>
+                <button>⇨</button>
             </div>
         </div>
 
